@@ -1,0 +1,15 @@
+package com.nft.board.domain.user.admin;
+
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class Admin {
+    private Long adminId;
+    private String adminLoginid;
+    private String adminName;
+    private String adminPassword;
+    private Date createdDate;
+    private Date modifiedDate;
+}
