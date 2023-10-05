@@ -2,8 +2,10 @@ package com.nft.board.web.login;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class LoginForm {
 
     @Schema(description = "로그인 ID", example = "로그인 ID 입니다.")
