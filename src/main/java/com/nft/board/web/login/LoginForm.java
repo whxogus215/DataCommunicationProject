@@ -4,13 +4,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Schema(description = "로그인 요청 폼")
 @Data
 @NoArgsConstructor
 public class LoginForm {
 
-    @Schema(description = "로그인 ID", example = "로그인 ID 입니다.")
+    @Schema(description = "로그인 ID", example = "test")
     private String loginId;
 
-    @Schema(description = "로그인 Password", example = "로그인 Password 입니다.")
+    @Schema(description = "로그인 Password", example = "test!")
     private String password;
 }
