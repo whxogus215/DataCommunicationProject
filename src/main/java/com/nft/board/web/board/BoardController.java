@@ -1,8 +1,11 @@
 package com.nft.board.web.board;
 
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "게시판", description = "게시판 관련 API")
@@ -10,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/boards")
 public class BoardController {
 
-    @PostMapping("")
-    public BoardDTO createBoard(@RequestBody BoardDTO boardDTO) {
+    @PostMapping(value = "",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public BoardDTO createBoard(@ModelAttribute BoardDTO boardDTO) {
         return new BoardDTO();
     }
 
