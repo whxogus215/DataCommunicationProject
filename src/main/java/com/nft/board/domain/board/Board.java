@@ -1,7 +1,10 @@
 package com.nft.board.domain.board;
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class Board {
     private int boardId; // 게시글 ID
     private String title; // 게시글 제목
