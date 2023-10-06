@@ -25,7 +25,7 @@ public class BoardController {
     }
 
     @PutMapping("/{boardId}")
-    public BoardDTO modifyBoard(@PathVariable String boardId) {
+    public BoardDTO updateBoard(@PathVariable String boardId) {
         return new BoardDTO();
     }
 
