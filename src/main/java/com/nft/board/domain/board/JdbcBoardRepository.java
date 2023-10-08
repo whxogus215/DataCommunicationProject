@@ -9,7 +9,7 @@ public interface JdbcBoardRepository {
     public Board findBoardById(int boardId);
 
     // 게시판 글 수정
-    public Board updateBoardById(int boardId);
+    public Board updateBoardById(Board updateBoard);
 
     // 게시판 글 삭제
     public void deleteBoardById(int boardId);
