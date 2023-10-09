@@ -17,7 +17,7 @@ public class H2BoardRepository implements JdbcBoardRepository{
     private final DataSource dataSource;
 
     @Override
-    public Board saveBoard(Board board) {
+    public void saveBoard(Board board) {
         String sql = "insert into board(title, content, price, created_date) values (?,?,?,?)";
 
         Connection con = getConnection();;
@@ -36,14 +36,11 @@ public class H2BoardRepository implements JdbcBoardRepository{
              */
 
             pstmt.executeUpdate();
-
-            return board;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             close(con, pstmt, null);
         }
-
     }
 
     @Override
@@ -81,7 +78,7 @@ public class H2BoardRepository implements JdbcBoardRepository{
     }
 
     @Override
-    public Board updateBoardById(Board updateBoard) {
+    public Board updateBoard(Board updateBoard) {
 
         String sql = "update board" +
                 " set title = ?, content = ?, price = ?" +
@@ -113,14 +110,15 @@ public class H2BoardRepository implements JdbcBoardRepository{
     }
 
     @Override
-    public void deleteBoardById(int boardId) {
-        String sql = "delete from board where id =?";
+    public void deleteBoard(int boardId) {
+        String sql = "delete from board where board_id =?";
 
         Connection con = getConnection();
         PreparedStatement pstmt = null;
 
         try {
             pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, boardId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
