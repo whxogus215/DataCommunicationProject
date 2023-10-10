@@ -127,6 +127,40 @@ public class H2BoardRepository implements JdbcBoardRepository{
         }
     }
 
+    @Override
+    public void deleteAll() {
+        String sql = "delete from board";
+
+        Connection con = getConnection();
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = con.prepareStatement(sql);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con, pstmt, null);
+        }
+    }
+
+    @Override
+    public void resetAIColumn() {
+        String sql = "alter table board alter column board_id restart with 1";
+
+        Connection con = getConnection();
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = con.prepareStatement(sql);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con, pstmt, null);
+        }
+    }
+
     private Connection getConnection() {
         Connection con = DataSourceUtils.getConnection(dataSource);
         return con;

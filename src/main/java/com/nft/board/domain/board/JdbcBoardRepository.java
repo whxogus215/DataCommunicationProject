@@ -13,5 +13,11 @@ public interface JdbcBoardRepository {
 
     // 게시판 글 삭제
     public void deleteBoard(int boardId);
+    
+    // 게시판 모두 삭제
+    public void deleteAll();
+
+    // 테스트용 메서드 : auto_increment 초기화
+    public void resetAIColumn();
 
 }

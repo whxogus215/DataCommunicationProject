@@ -22,7 +22,7 @@ class H2BoardRepositoryTest {
 
     private String password = "";
 
-    private int testId = 19;
+    private int testId = 1;
 
     JdbcBoardRepository jdbcBoardRepository;
 
@@ -34,6 +34,9 @@ class H2BoardRepositoryTest {
         dataSource.setPassword(password);
 
         jdbcBoardRepository = new H2BoardRepository(dataSource);
+
+        jdbcBoardRepository.deleteAll();
+        jdbcBoardRepository.resetAIColumn();
     }
 
     @Test
