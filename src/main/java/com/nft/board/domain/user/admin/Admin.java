@@ -12,4 +12,9 @@ public class Admin {
     private String adminPassword;
     private Date createdDate;
     private Date modifiedDate;
+
+    public Admin(String adminLoginid, String adminPassword) {
+        this.adminLoginid = adminLoginid;
+        this.adminPassword = adminPassword;
+    }
 }
