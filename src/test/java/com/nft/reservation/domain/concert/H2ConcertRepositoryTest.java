@@ -5,11 +5,13 @@ import static org.assertj.core.api.Assertions.*;
 import com.nft.reservation.domain.board.H2BoardRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@Slf4j
 class H2ConcertRepositoryTest {
 
     private String url = "jdbc:h2:tcp://localhost/~/test";
@@ -41,5 +43,7 @@ class H2ConcertRepositoryTest {
         Optional<Concert> findConcert = jdbcConcertRepository.findById(testId);
 
         assertThat(findConcert).isNotNull();
+
+        log.info("조회한 Concert 출력 : {}", findConcert.get());
     }
 }
