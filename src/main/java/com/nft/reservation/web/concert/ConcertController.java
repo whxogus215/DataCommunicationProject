@@ -1,12 +1,19 @@
 package com.nft.reservation.web.concert;
 
+import com.nft.reservation.domain.concert.ConcertDTO;
+import com.nft.reservation.domain.concert.ConcertService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/concert")
 public class ConcertController {
+
+    private final ConcertService concertService;
 
     @GetMapping("/list")
     public void getList() {
@@ -18,9 +25,10 @@ public class ConcertController {
         // 캐러샐 및 홈 화면에 조회되는 목록 조회    
     }
     
-    @GetMapping("/detail/{concert_id}")
-    public void getDetailByID() {
+    @GetMapping("/detail/{id}")
+    public ConcertDTO getDetailByID(@PathVariable("id") Integer id) {
         // 특정 공연 페이지 상세 조회
+        return concertService.getConcertDetail(id);
     }
     
 }
