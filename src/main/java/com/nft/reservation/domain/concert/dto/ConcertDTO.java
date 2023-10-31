@@ -1,4 +1,4 @@
-package com.nft.reservation.domain.concert;
+package com.nft.reservation.domain.concert.dto;
 
 import java.sql.Date;
 import lombok.Getter;

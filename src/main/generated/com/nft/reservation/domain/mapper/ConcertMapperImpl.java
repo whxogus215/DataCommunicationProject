@@ -1,7 +1,7 @@
 package com.nft.reservation.domain.mapper;
 
 import com.nft.reservation.domain.concert.Concert;
-import com.nft.reservation.domain.concert.ConcertDTO;
+import com.nft.reservation.domain.concert.dto.ConcertDTO;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 

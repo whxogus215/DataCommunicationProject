@@ -1,6 +1,6 @@
 package com.nft.reservation.web.concert;
 
-import com.nft.reservation.domain.concert.ConcertDTO;
+import com.nft.reservation.domain.concert.dto.ConcertDTO;
 import com.nft.reservation.domain.concert.ConcertService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +32,5 @@ public class ConcertController {
         // 특정 공연 페이지 상세 조회
         return concertService.getConcertDetail(id);
     }
-    
+
 }
