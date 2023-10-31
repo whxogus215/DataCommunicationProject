@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,6 @@ public class H2ConcertRepository implements JdbcConcertRepository{
 
     @Override
     public Optional<Concert> findById(Integer id) {
-
         String sql = "select * from concert where concert_id = ?";
 
         Connection con = getConnection();
@@ -45,8 +46,42 @@ public class H2ConcertRepository implements JdbcConcertRepository{
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(con, pstmt, rs);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<Seat> findBookedSeatById(Integer id) {
+        String sql = "select * from seat where concert_id = ?";
+
+        Connection con = getConnection();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+
+            List<Seat> seats = new ArrayList<>();
+
+            while (rs.next()) {
+                Seat seat = new Seat();
+
+                seat.setRow(rs.getInt(2));
+                seat.setColumn(rs.getString(3));
+                seat.setBook(rs.getBoolean(4));
+
+                seats.add(seat);
+            }
+            return seats;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con, pstmt, rs);
+        }
     }
 
     private Connection getConnection() {
