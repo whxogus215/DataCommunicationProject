@@ -1,11 +1,11 @@
 package com.nft.reservation.domain.mapper;
 
 import com.nft.reservation.domain.concert.Concert;
+import com.nft.reservation.domain.concert.Seat;
 import com.nft.reservation.domain.concert.dto.ConcertDTO;
-import org.mapstruct.Mapper;
+import com.nft.reservation.domain.concert.dto.SeatDTO;
 
-@Mapper(componentModel = "spring")
-public interface ConcertMapper {
-
+public interface ReservationMapper {
     ConcertDTO concertToConcertResponseDTO(Concert concert);
+    SeatDTO seatToSeatResponseDTO(Seat seat);
 }

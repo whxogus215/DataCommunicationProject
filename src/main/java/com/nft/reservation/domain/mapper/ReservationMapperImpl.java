@@ -1,17 +1,13 @@
 package com.nft.reservation.domain.mapper;
 
 import com.nft.reservation.domain.concert.Concert;
+import com.nft.reservation.domain.concert.Seat;
 import com.nft.reservation.domain.concert.dto.ConcertDTO;
-import javax.annotation.processing.Generated;
+import com.nft.reservation.domain.concert.dto.SeatDTO;
 import org.springframework.stereotype.Component;
 
-@Generated(
-    value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-31T15:28:27+0900",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.8 (Oracle Corporation)"
-)
 @Component
-public class ConcertMapperImpl implements ConcertMapper {
+public class ReservationMapperImpl implements ReservationMapper {
 
     @Override
     public ConcertDTO concertToConcertResponseDTO(Concert concert) {
@@ -28,5 +24,20 @@ public class ConcertMapperImpl implements ConcertMapper {
         concertDTO.setPlace( concert.getPlace() );
 
         return concertDTO;
+    }
+
+    @Override
+    public SeatDTO seatToSeatResponseDTO(Seat seat) {
+        if ( seat == null ) {
+            return null;
+        }
+
+        SeatDTO seatDTO = new SeatDTO();
+
+        seatDTO.setRow( seat.getRow() );
+        seatDTO.setCol( seat.getCol() );
+        seatDTO.setData( seat.isData() );
+
+        return seatDTO;
     }
 }

@@ -1,18 +1,24 @@
 package com.nft.reservation.domain.concert;
 
 import com.nft.reservation.domain.concert.dto.ConcertDTO;
-import com.nft.reservation.domain.mapper.ConcertMapper;
+import com.nft.reservation.domain.concert.dto.SeatDTO;
+import com.nft.reservation.domain.mapper.ReservationMapper;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ConcertServiceImpl implements ConcertService {
 
     private final JdbcConcertRepository repository;
 
-    private final ConcertMapper concertMapper;
+    private final ReservationMapper mapper;
 
     @Override
     public ConcertDTO getConcertDetail(Integer concertId) {
@@ -22,8 +28,23 @@ public class ConcertServiceImpl implements ConcertService {
         if (findConcert.isPresent()) {
             // Optional 객체가 null이 아닐 경우, DTO로 변환해서 반환
             Concert concert = findConcert.get();
-            return concertMapper.concertToConcertResponseDTO(concert);
+            return mapper.concertToConcertResponseDTO(concert);
         }
         return null;
+    }
+
+    @Override
+    public List<SeatDTO> getConcertSeat(Integer concertId) {
+        List<Seat> bookedSeats = repository.findBookedSeatById(concertId);
+
+        List<SeatDTO> dtoBookedSeats = new ArrayList<>();
+        for (Seat bookedSeat : bookedSeats) {
+
+            SeatDTO seatDTO = mapper.seatToSeatResponseDTO(bookedSeat);
+            dtoBookedSeats.add(seatDTO);
+        }
+
+
+        return dtoBookedSeats;
     }
 }

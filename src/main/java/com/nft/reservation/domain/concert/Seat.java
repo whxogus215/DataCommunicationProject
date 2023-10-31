@@ -12,8 +12,8 @@ public class Seat {
     private Integer id;
 
     private Integer row;
-    private String column;
-    private boolean isBook;
+    private Character col;
+    private boolean data;
 
     // FK
     private Integer concert_id;

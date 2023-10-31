@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.stereotype.Repository;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class H2ConcertRepository implements JdbcConcertRepository{
@@ -71,8 +73,10 @@ public class H2ConcertRepository implements JdbcConcertRepository{
                 Seat seat = new Seat();
 
                 seat.setRow(rs.getInt(2));
-                seat.setColumn(rs.getString(3));
-                seat.setBook(rs.getBoolean(4));
+                seat.setCol(rs.getString(3).charAt(0));
+                seat.setData(rs.getBoolean(4));
+
+                log.info("좌석 col = {}", seat.getCol());
 
                 seats.add(seat);
             }
