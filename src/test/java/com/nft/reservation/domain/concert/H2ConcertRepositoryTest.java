@@ -56,6 +56,17 @@ class H2ConcertRepositoryTest {
         List<Seat> bookedSeatById = jdbcConcertRepository.findBookedSeatById(testId);
 
         bookedSeatById.stream()
-                        .forEach((seat) -> log.info("조회한 Seat 출력 : {}", seat.toString()));
+                .forEach((seat) -> log.info("조회한 Seat 출력 : {}", seat.toString()));
+    }
+
+    @Test
+    @DisplayName("특정 공연의 공연장 조회 메서드 테스트")
+    void findConcertHallByIdTest() {
+        int testId = 1;
+
+        Optional<ConcertHall> concertHallById = jdbcConcertRepository.findConcertHallById(testId);
+
+        concertHallById
+                .ifPresent((concertHall) -> log.info("조회한 ConcertHall 출력 : {}", concertHall.toString()));
     }
 }

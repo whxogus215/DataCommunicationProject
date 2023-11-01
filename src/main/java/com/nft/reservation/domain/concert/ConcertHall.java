@@ -2,9 +2,11 @@ package com.nft.reservation.domain.concert;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class ConcertHall {
     private Integer id;
     private String name;
