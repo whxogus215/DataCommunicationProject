@@ -50,7 +50,13 @@ public class ConcertServiceImpl implements ConcertService {
     @Override
     public ConcertHallDTO getConcertHallSize(Integer concertId) {
         // repository에서 해당 공연 ID와 연결된 공연장 정보 가져오기
+        Optional<ConcertHall> concertHallById = repository.findConcertHallById(concertId);
         // ConcertHall 엔티티 -> DTO로 변환
+        if (concertHallById.isPresent()) {
+            // Optional 객체가 null이 아닐 경우, DTO로 변환해서 반환
+            ConcertHall concertHall = concertHallById.get();
+            return mapper.concertHallToConcertHallDTO(concertHall);
+        }
         return null;
     }
 }
