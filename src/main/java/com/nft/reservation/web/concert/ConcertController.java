@@ -3,6 +3,7 @@ package com.nft.reservation.web.concert;
 import com.google.gson.JsonArray;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.domain.concert.ConcertService;
+import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import com.nft.reservation.web.concert.dto.SeatDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -53,8 +54,11 @@ public class ConcertController {
         // 예매된 좌석 리스트 조회
         List<SeatDTO> concertSeat = concertService.getConcertSeat(id);
 
-        int rowOfPlace = 20;
-        int columnOfPlace = 10;
+        // 특정 공연의 공연장 크기 조회
+        ConcertHallDTO concertHallDTO = concertService.getConcertHallSize(id);
+
+        int rowOfPlace = concertHallDTO.getRowSize();
+        int columnOfPlace = concertHallDTO.getColumnSize();
 
         for (int i = 1; i <= rowOfPlace; i++) {
             for (int j = 1; j <= columnOfPlace; j++) {
