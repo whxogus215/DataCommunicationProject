@@ -88,9 +88,9 @@ public class H2ConcertRepository implements JdbcConcertRepository{
 
     @Override
     public Optional<ConcertHall> findConcertHallById(Integer id) {
-        String sql = "SELECT h.name, h.capacity, h.hall_row, h.hall_column " +
+        String sql = "SELECT h.name, h.capacity, h.roww, h.column " +
                      "FROM concert AS c " +
-                     "LEFT JOIN hall AS h ON c.hall_id = h.hall_id " +
+                     "LEFT JOIN hall AS h ON c.hall_id = h.id " +
                      "WHERE c.concert_id = ?";
 
         Connection con = getConnection();
