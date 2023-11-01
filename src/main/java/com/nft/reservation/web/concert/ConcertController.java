@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.domain.concert.ConcertService;
 import com.nft.reservation.web.concert.dto.SeatDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Comparator;
 import java.util.List;
@@ -36,12 +37,14 @@ public class ConcertController {
     }
 
     @GetMapping("/detail/{id}")
+    @Operation(summary = "특정 공연 페이지 상세 조회")
     public ConcertDTO getDetailByID(@PathVariable("id") Integer id) {
         // 특정 공연 페이지 상세 조회
         return concertService.getConcertDetail(id);
     }
 
     @GetMapping("/detail/{id}/book")
+    @Operation(summary = "특정 공연의 좌석 페이지 조회")
     public List<SeatDTO> getBookableSeat(@PathVariable("id") Integer id) {
         // 특정 공연의 좌석 페이지 조회
         // 좌석 JSON 배열 반환
