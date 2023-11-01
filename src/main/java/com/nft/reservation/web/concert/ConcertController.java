@@ -1,11 +1,9 @@
 package com.nft.reservation.web.concert;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.nft.reservation.domain.concert.dto.ConcertDTO;
+import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.domain.concert.ConcertService;
-import com.nft.reservation.domain.concert.dto.SeatDTO;
+import com.nft.reservation.web.concert.dto.SeatDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

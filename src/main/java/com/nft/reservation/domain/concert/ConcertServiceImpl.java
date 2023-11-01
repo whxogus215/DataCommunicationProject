@@ -1,12 +1,11 @@
 package com.nft.reservation.domain.concert;
 
-import com.nft.reservation.domain.concert.dto.ConcertDTO;
-import com.nft.reservation.domain.concert.dto.SeatDTO;
+import com.nft.reservation.web.concert.dto.ConcertDTO;
+import com.nft.reservation.web.concert.dto.SeatDTO;
 import com.nft.reservation.domain.mapper.ReservationMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
