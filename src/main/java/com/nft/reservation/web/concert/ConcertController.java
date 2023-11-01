@@ -5,6 +5,7 @@ import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.domain.concert.ConcertService;
 import com.nft.reservation.web.concert.dto.SeatDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,6 +69,8 @@ public class ConcertController {
         }
 
         // seatDTO 행 -> 열 순으로 정렬 기준 만들기 : Comparator
+        concertSeat.sort(Comparator.comparingInt(SeatDTO::getRow)
+                .thenComparing(SeatDTO::getCol));
         return concertSeat;
     }
 

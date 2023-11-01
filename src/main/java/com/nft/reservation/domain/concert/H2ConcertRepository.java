@@ -76,8 +76,6 @@ public class H2ConcertRepository implements JdbcConcertRepository{
                 seat.setCol(rs.getString(3).charAt(0));
                 seat.setData(rs.getBoolean(4));
 
-                log.info("좌석 col = {}", seat.getCol());
-
                 seats.add(seat);
             }
             return seats;
