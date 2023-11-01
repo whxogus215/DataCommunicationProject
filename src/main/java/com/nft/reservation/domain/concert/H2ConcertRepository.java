@@ -86,6 +86,39 @@ public class H2ConcertRepository implements JdbcConcertRepository{
         }
     }
 
+    @Override
+    public Optional<ConcertHall> findConcertHallById(Integer id) {
+        String sql = "SELECT h.name, h.capacity, h.hall_row, h.hall_column " +
+                     "FROM concert AS c " +
+                     "LEFT JOIN hall AS h ON c.hall_id = h.hall_id " +
+                     "WHERE c.concert_id = ?";
+
+        Connection con = getConnection();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                ConcertHall concertHall = new ConcertHall();
+
+                concertHall.setName(rs.getString(1));
+                concertHall.setCapacity(rs.getInt(2));
+                concertHall.setRowSize(rs.getInt(3));
+                concertHall.setColumnSize(rs.getInt(4));
+
+                return Optional.of(concertHall);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(con, pstmt, rs);
+        }
+        return Optional.empty();
+    }
+
     private Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);
     }
