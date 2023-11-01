@@ -1,6 +1,7 @@
 package com.nft.reservation.domain.concert;
 
 import com.nft.reservation.web.concert.dto.ConcertDTO;
+import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import com.nft.reservation.web.concert.dto.SeatDTO;
 import com.nft.reservation.domain.mapper.ReservationMapper;
 import java.util.ArrayList;
@@ -43,7 +44,13 @@ public class ConcertServiceImpl implements ConcertService {
             dtoBookedSeats.add(seatDTO);
         }
 
-
         return dtoBookedSeats;
+    }
+
+    @Override
+    public ConcertHallDTO getConcertHallSize(Integer concertId) {
+        // repository에서 해당 공연 ID와 연결된 공연장 정보 가져오기
+        // ConcertHall 엔티티 -> DTO로 변환
+        return null;
     }
 }
