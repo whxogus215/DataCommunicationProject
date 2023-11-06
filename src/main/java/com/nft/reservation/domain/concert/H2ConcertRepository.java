@@ -23,7 +23,7 @@ public class H2ConcertRepository implements JdbcConcertRepository{
 
     @Override
     public Optional<Concert> findById(Integer id) {
-        String sql = "select * from concert where concert_id = ?";
+        String sql = "select * from concert where id = ?";
 
         Connection con = getConnection();
         PreparedStatement pstmt = null;
@@ -56,7 +56,7 @@ public class H2ConcertRepository implements JdbcConcertRepository{
 
     @Override
     public List<Seat> findBookedSeatById(Integer id) {
-        String sql = "select * from seat where concert_id = ?";
+        String sql = "select * from seat where id = ?";
 
         Connection con = getConnection();
         PreparedStatement pstmt = null;
@@ -91,7 +91,7 @@ public class H2ConcertRepository implements JdbcConcertRepository{
         String sql = "SELECT h.name, h.capacity, h.roww, h.column " +
                      "FROM concert AS c " +
                      "LEFT JOIN hall AS h ON c.hall_id = h.id " +
-                     "WHERE c.concert_id = ?";
+                     "WHERE c.id = ?";
 
         Connection con = getConnection();
         PreparedStatement pstmt = null;
