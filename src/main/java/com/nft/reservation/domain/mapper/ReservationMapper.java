@@ -1,8 +1,8 @@
 package com.nft.reservation.domain.mapper;
 
-import com.nft.reservation.domain.concert.Concert;
-import com.nft.reservation.domain.concert.ConcertHall;
-import com.nft.reservation.domain.concert.Seat;
+import com.nft.reservation.domain.concert.entity.Concert;
+import com.nft.reservation.domain.concert.entity.ConcertHall;
+import com.nft.reservation.domain.concert.entity.Seat;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import com.nft.reservation.web.concert.dto.SeatDTO;

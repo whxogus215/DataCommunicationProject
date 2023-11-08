@@ -82,7 +82,8 @@ public class ConcertController {
     }
 
     @PostMapping("/detail/{id}/book")
-    public SeatDTO postBookableSeat(@PathVariable("id") Integer id, @RequestBody SeatDTO seatDTO) {
+    public String postBookableSeat(@PathVariable("id") Integer id,
+                                   @RequestBody List<SeatDTO> seatDTOs) {
         // 특정 공연의 좌석 예매
         // 요청 값(JSON 배열) : [{row : 0, col: 'B'}, {row : 1, col: 'B'}]
         return null;

@@ -1,4 +1,4 @@
-package com.nft.reservation.domain.concert;
+package com.nft.reservation.domain.concert.entity;
 
 
 import java.sql.Date;
