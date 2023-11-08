@@ -21,7 +21,7 @@ public class ReservationMapperImpl implements ReservationMapper {
 
         concertDTO.setId(concert.getId());
         concertDTO.setTitle(concert.getTitle());
-        concertDTO.setDate(concert.getDate());
+        concertDTO.setDay(concert.getDay());
         concertDTO.setRunningTime(concert.getRunningTime());
         concertDTO.setPlace(concert.getPlace());
 

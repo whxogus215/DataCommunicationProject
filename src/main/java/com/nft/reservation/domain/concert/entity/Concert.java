@@ -10,9 +10,10 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Concert {
+
     private Integer id;
     private String title;
-    private Date date;
+    private String day;
     private Integer runningTime;
     private String place;
 

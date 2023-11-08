@@ -9,7 +9,7 @@ import lombok.Setter;
 public class ConcertDTO {
     private Integer id;
     private String title;
-    private Date date;
+    private String day;
     private Integer runningTime;
     private String place;
 }

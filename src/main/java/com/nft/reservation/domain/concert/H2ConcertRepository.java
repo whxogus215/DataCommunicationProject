@@ -41,7 +41,7 @@ public class H2ConcertRepository implements JdbcConcertRepository{
 
                 concert.setId(rs.getInt(1));
                 concert.setTitle(rs.getString(2));
-                concert.setDate(rs.getDate(3));
+                concert.setDay(rs.getString(3));
                 concert.setRunningTime(4);
                 concert.setPlace(rs.getString(5));
                 concert.setRankId(rs.getInt(6));
