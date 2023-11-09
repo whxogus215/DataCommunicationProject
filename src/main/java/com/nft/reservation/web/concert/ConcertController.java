@@ -3,6 +3,7 @@ package com.nft.reservation.web.concert;
 import com.google.gson.JsonArray;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.domain.concert.ConcertService;
+import com.nft.reservation.web.concert.dto.ConcertForm;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import com.nft.reservation.web.concert.dto.SeatDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,17 +12,21 @@ import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "콘서트", description = "콘서트 관련 API")
 @Slf4j
-@RestController
 @RequiredArgsConstructor
+@Controller
 @RequestMapping("/concert")
 public class ConcertController {
 
@@ -38,6 +43,7 @@ public class ConcertController {
     }
 
     @GetMapping("/detail/{id}")
+    @ResponseBody
     @Operation(summary = "특정 공연 페이지 상세 조회")
     public ConcertDTO getDetailByID(@PathVariable("id") Integer id) {
         // 특정 공연 페이지 상세 조회
@@ -45,12 +51,9 @@ public class ConcertController {
     }
 
     @GetMapping("/detail/{id}/book")
+    @ResponseBody
     @Operation(summary = "특정 공연의 좌석 페이지 조회")
     public List<SeatDTO> getBookableSeat(@PathVariable("id") Integer id) {
-        // 특정 공연의 좌석 페이지 조회
-        // 좌석 JSON 배열 반환
-        JsonArray jsonArray = new JsonArray();
-
         // 예매된 좌석 리스트 조회
         List<SeatDTO> concertSeat = concertService.getConcertSeat(id);
 
@@ -82,6 +85,7 @@ public class ConcertController {
     }
 
     @PostMapping("/detail/{id}/book")
+    @ResponseBody
     public String postBookableSeat(@PathVariable("id") Integer id,
                                    @RequestBody List<SeatDTO> seatDTOs) {
         // 특정 공연의 좌석 예매
@@ -89,4 +93,28 @@ public class ConcertController {
         return null;
     }
 
+    @GetMapping("/new")
+    public String getConcertForm() {
+        return "concert-form";
+    }
+
+    @PostMapping("/new")
+    @ResponseBody
+    public String addConcert(@ModelAttribute ConcertForm form) {
+        log.info("공연 제목={}", form.getConcertTitle());
+        log.info("공연 날짜={}", form.getConcertDay());
+        log.info("공연 시간={}", form.getRunningTime());
+        log.info("출연진={}", form.getCastMember());
+        log.info("공연장 이름={}", form.getHallName());
+        log.info("관람 등급={}", form.getRankDetail());
+
+        log.info("썸네일 사진={}", form.getThumbnailImage());
+        log.info("캐러셀 사진={}", form.getCarouselImage());
+        List<MultipartFile> contentImages = form.getContentImages();
+        for (MultipartFile contentImage : contentImages) {
+            log.info("본문 사진={}", contentImage);
+        }
+
+        return "OK";
+    }
 }
