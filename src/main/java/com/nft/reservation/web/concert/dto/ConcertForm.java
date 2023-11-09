@@ -17,6 +17,8 @@ public class ConcertForm {
     private String hallName;
     private String rankDetail;
 
-    private List<MultipartFile> imageFiles;
+    private MultipartFile thumbnailImage;
+    private MultipartFile carouselImage;
+    private List<MultipartFile> contentImages;
 
 }
