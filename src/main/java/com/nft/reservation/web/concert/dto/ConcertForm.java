@@ -15,6 +15,11 @@ public class ConcertForm {
     private String castMember;
 
     private String hallName;
+    private String hallCapacity;
+    private String hallRow;
+    private String hallColumn;
+    private String hallAddress;
+
     private String rankDetail;
 
     private MultipartFile thumbnailImage;
