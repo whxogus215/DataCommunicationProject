@@ -12,8 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Slf4j
+@SpringBootTest
 class H2ConcertRepositoryTest {
 
     private String url = "jdbc:h2:tcp://localhost/~/test";
@@ -24,6 +28,9 @@ class H2ConcertRepositoryTest {
 
     JdbcConcertRepository jdbcConcertRepository;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
     @BeforeEach
     void beforeEach() {
         HikariDataSource dataSource = new HikariDataSource();
@@ -31,7 +38,7 @@ class H2ConcertRepositoryTest {
         dataSource.setUsername(username);
         dataSource.setPassword(password);
 
-        jdbcConcertRepository = new H2ConcertRepository(dataSource);
+        jdbcConcertRepository = new H2ConcertRepository(jdbcTemplate);
 
 //        jdbcConcertRepository.deleteAll();
 //        jdbcConcertRepository.resetAIColumn();
