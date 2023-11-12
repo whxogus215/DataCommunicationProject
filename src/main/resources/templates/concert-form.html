@@ -11,12 +11,17 @@
     <h4 class="mb-3">공연 정보 입력</h4>
     <form th:action method="post" enctype="multipart/form-data">
         <ul>
-            <li>공연 제목 : <input type="text" name="concertTitle"></li>
-            <li>공연 날짜(~로 구분) : <input type="text" name="concertDay"></li>
-            <li>공연 시간(분 단위) : <input type="text" name="runningTime"></li>
-            <li>출연진 : <input type="text" name="castMember"></li>
-            <li>공연장 이름 : <input type="text" name="hallName"></li>
-            <li>관람 등급 : <input type="text" name="rankDetail"></li>
+            <li>공연 제목 : <input type="text" name="concertDTO.title"></li>
+            <li>공연 날짜(~로 구분) : <input type="text" name="concertDTO.day"></li>
+            <li>공연 시간(분 단위) : <input type="number" name="concertDTO.runningTime"></li>
+            <li>출연진 : <input type="text" name="concertDTO.castMember"></li>
+
+            <li>공연장 이름 : <input type="text" name="concertDTO.hallName"></li>
+            <li>공연장 수용인원 : <input type="number" name="hallCapacity"></li>
+            <li>공연장 행 개수 : <input type="number" name="hallRow"></li>
+            <li>공연장 열 개수 : <input type="number" name="hallColumn"></li>
+
+            <li>관람 등급 : <input type="text" name="concertDTO.rate"></li>
 
             <li>썸네일 사진 : <input type="file" name="thumbnailImage" ></li>
             <li>캐러셀 사진 : <input type="file" name="carouselImage" ></li>
