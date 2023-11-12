@@ -10,12 +10,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Concert {
-
-    private Long id;
+    private Long id; // PK
     private String title;
     private String day;
     private Long runningTime;
-    private String place;
+    private String castMember;
 
     // FK
     private Long rankId;
