@@ -9,6 +9,8 @@ import com.nft.reservation.web.concert.dto.SeatDTO;
 
 public interface ReservationMapper {
     ConcertDTO concertToConcertResponseDTO(Concert concert);
+
+    Concert concertDTOToEntity(ConcertDTO concertDTO);
     SeatDTO seatToSeatResponseDTO(Seat seat);
 
     ConcertHallDTO concertHallToConcertHallDTO(ConcertHall concertHall);

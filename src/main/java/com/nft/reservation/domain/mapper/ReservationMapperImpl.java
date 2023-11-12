@@ -16,16 +16,30 @@ public class ReservationMapperImpl implements ReservationMapper {
         if (concert == null) {
             return null;
         }
-
         ConcertDTO concertDTO = new ConcertDTO();
 
         concertDTO.setId(concert.getId());
         concertDTO.setTitle(concert.getTitle());
         concertDTO.setDay(concert.getDay());
         concertDTO.setRunningTime(concert.getRunningTime());
-        concertDTO.setPlace(concert.getPlace());
+        concertDTO.setHallName(concert.getPlace());
 
         return concertDTO;
+    }
+
+    @Override
+    public Concert concertDTOToEntity(ConcertDTO concertDTO) {
+        if (concertDTO == null) {
+            return null;
+        }
+        Concert concert = new Concert();
+
+        concert.setTitle(concertDTO.getTitle());
+        concert.setDay(concertDTO.getDay());
+        concert.setRunningTime(concertDTO.getRunningTime());
+        concert.setCastMember(concertDTO.getCastMember());
+
+        return concert;
     }
 
     @Override
