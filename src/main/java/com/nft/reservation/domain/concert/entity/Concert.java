@@ -11,13 +11,13 @@ import lombok.ToString;
 @ToString
 public class Concert {
 
-    private Integer id;
+    private Long id;
     private String title;
     private String day;
-    private Integer runningTime;
+    private Long runningTime;
     private String place;
 
     // FK
-    private Integer rankId;
-    private Integer hallId;
+    private Long rankId;
+    private Long hallId;
 }
