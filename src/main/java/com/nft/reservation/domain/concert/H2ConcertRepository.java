@@ -13,6 +13,7 @@ import java.util.Optional;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Repository;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class H2ConcertRepository implements JdbcConcertRepository{
+public class H2ConcertRepository implements JdbcConcertRepository {
 
     private final JdbcTemplate template;
 
@@ -41,23 +42,38 @@ public class H2ConcertRepository implements JdbcConcertRepository{
     @Override
     public Optional<ConcertHall> findConcertHallById(Integer id) {
         String sql = "SELECT h.name, h.capacity, h.roww, h.column " +
-                     "FROM concert AS c " +
-                     "LEFT JOIN hall AS h ON c.hall_id = h.id " +
-                     "WHERE c.id = ?";
+                "FROM concert AS c " +
+                "LEFT JOIN hall AS h ON c.hall_id = h.id " +
+                "WHERE c.id = ?";
         return template.queryForObject(sql, concertHallRowMapper(), id);
+    }
+
+    @Override
+    public Integer findConcertHallIdByName(String name) {
+        String sql = "SELECT h.id FROM hall AS h WHERE h.name = ?";
+        try {
+            return template.queryForObject(sql, Integer.class, name);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Integer findRankIdByName(String name) {
+        return null;
     }
 
     private RowMapper<Optional<Concert>> concertRowMapper() {
         return (rs, rowNum) -> {
             Concert concert = new Concert();
 
-            concert.setId(rs.getInt(1));
+            concert.setId(rs.getLong(1));
             concert.setTitle(rs.getString(2));
             concert.setDay(rs.getString(3));
-            concert.setRunningTime(4);
-            concert.setPlace(rs.getString(5));
-            concert.setRankId(rs.getInt(6));
-            concert.setHallId(rs.getInt(7));
+            concert.setRunningTime(rs.getLong(4));
+            concert.setCastMember(rs.getString(5));
+            concert.setRankId(rs.getLong(6));
+            concert.setHallId(rs.getLong(7));
 
             return Optional.of(concert);
         };
@@ -91,5 +107,4 @@ public class H2ConcertRepository implements JdbcConcertRepository{
             return Optional.of(concertHall);
         };
     }
-
 }
