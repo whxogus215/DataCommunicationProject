@@ -9,6 +9,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,6 +76,24 @@ class H2ConcertRepositoryTest {
         Optional<ConcertHall> concertHallById = jdbcConcertRepository.findConcertHallById(testId);
 
         concertHallById
-                .ifPresent((concertHall) -> log.info("조회한 ConcertHall 출력 : {}", concertHall.toString()));
+                .ifPresent((concertHall) -> log.info("조회한 ConcertHall 출력 : {}",
+                        concertHall.toString()));
+    }
+
+    @Test
+    @DisplayName("공연장 이름으로 공연 ID 값 조회 메서드 테스트")
+    void findConcertHallIdByNameTest() {
+        String name = "KSPO DOME(올림픽체조경기장)";
+        Integer findId = jdbcConcertRepository.findConcertHallIdByName(name);
+
+        assertThat(findId).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("공연장 이름으로 공연 ID 값 조회 메서드 예외 테스트")
+    void findConcertHallIdByNameNullTest() {
+        String name = "KSPO";
+        Integer findId = jdbcConcertRepository.findConcertHallIdByName(name);
+        assertThat(findId).isNull();
     }
 }
