@@ -11,7 +11,7 @@ public interface JdbcConcertRepository {
     List<Seat> findBookedSeatById(Integer id);
     Optional<ConcertHall> findConcertHallById(Integer id);
 
-    Integer findConcertHallIdByName(String name);
+    Long findConcertHallIdByName(String name);
 
     Integer findRankIdByName(String name);
 }

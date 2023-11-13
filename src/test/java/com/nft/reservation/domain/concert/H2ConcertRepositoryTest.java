@@ -84,7 +84,7 @@ class H2ConcertRepositoryTest {
     @DisplayName("공연장 이름으로 공연 ID 값 조회 메서드 테스트")
     void findConcertHallIdByNameTest() {
         String name = "KSPO DOME(올림픽체조경기장)";
-        Integer findId = jdbcConcertRepository.findConcertHallIdByName(name);
+        Long findId = jdbcConcertRepository.findConcertHallIdByName(name);
 
         assertThat(findId).isEqualTo(1);
     }
@@ -93,7 +93,7 @@ class H2ConcertRepositoryTest {
     @DisplayName("공연장 이름으로 공연 ID 값 조회 메서드 예외 테스트")
     void findConcertHallIdByNameNullTest() {
         String name = "KSPO";
-        Integer findId = jdbcConcertRepository.findConcertHallIdByName(name);
+        Long findId = jdbcConcertRepository.findConcertHallIdByName(name);
         assertThat(findId).isNull();
     }
 }

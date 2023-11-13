@@ -49,10 +49,10 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     }
 
     @Override
-    public Integer findConcertHallIdByName(String name) {
+    public Long findConcertHallIdByName(String name) {
         String sql = "SELECT h.id FROM hall AS h WHERE h.name = ?";
         try {
-            return template.queryForObject(sql, Integer.class, name);
+            return template.queryForObject(sql, Long.class, name);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
