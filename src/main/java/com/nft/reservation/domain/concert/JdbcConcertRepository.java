@@ -18,5 +18,6 @@ public interface JdbcConcertRepository {
     Optional<ConcertHall> findConcertHallById(Long id);
 
 
-    Integer findRankIdByName(String name);
+    Long saveRank(String detail);
+    Long findRankIdByName(String name);
 }

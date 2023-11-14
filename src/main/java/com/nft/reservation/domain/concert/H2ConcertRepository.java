@@ -84,7 +84,20 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     }
 
     @Override
-    public Integer findRankIdByName(String name) {
+    public Long saveRank(String detail) {
+        String sql = "INSERT INTO RANK (detail) VALUES (?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        template.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, detail);
+            return ps;
+        }, keyHolder);
+        long id = keyHolder.getKey().longValue();
+        return id;
+    }
+
+    @Override
+    public Long findRankIdByName(String name) {
         return null;
     }
 
