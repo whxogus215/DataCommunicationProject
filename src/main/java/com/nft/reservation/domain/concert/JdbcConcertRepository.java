@@ -2,6 +2,7 @@ package com.nft.reservation.domain.concert;
 
 import com.nft.reservation.domain.concert.entity.Concert;
 import com.nft.reservation.domain.concert.entity.ConcertHall;
+import com.nft.reservation.domain.concert.entity.Image;
 import com.nft.reservation.domain.concert.entity.Seat;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import java.util.List;
@@ -21,5 +22,9 @@ public interface JdbcConcertRepository {
 
 
     Long saveRank(String detail);
-    Long findRankIdByName(String name);
+    Long findRankIdByDetail(String detail);
+
+    Long saveImage(Image image);
+
+    Image findImageByConcertId(Long id);
 }

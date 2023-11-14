@@ -2,6 +2,7 @@ package com.nft.reservation.domain.concert;
 
 import com.nft.reservation.domain.concert.entity.Concert;
 import com.nft.reservation.domain.concert.entity.ConcertHall;
+import com.nft.reservation.domain.concert.entity.Image;
 import com.nft.reservation.domain.concert.entity.Seat;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import java.sql.Connection;
@@ -117,8 +118,38 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     }
 
     @Override
-    public Long findRankIdByName(String name) {
-        return null;
+    public Long findRankIdByDetail(String detail) {
+        String sql = "SELECT id FROM rank WHERE detail = ?";
+        try {
+            return template.queryForObject(sql, Long.class, detail);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Long saveImage(Image image) {
+        String sql = "INSERT INTO image (upload_name, store_name, concert_id) VALUES (?, ? ,?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        template.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, image.getUploadName());
+            ps.setString(2, image.getStoreName());
+            ps.setLong(3, image.getConcertId());
+            return ps;
+        }, keyHolder);
+        long id = keyHolder.getKey().longValue();
+        return id;
+    }
+
+    @Override
+    public Image findImageByConcertId(Long id) {
+        String sql = "SELECT upload_name, store_name, concert_id FROM image WHERE concert_id = ?";
+        try {
+            return template.queryForObject(sql, imageRowMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     private RowMapper<Optional<Concert>> concertRowMapper() {
@@ -163,6 +194,18 @@ public class H2ConcertRepository implements JdbcConcertRepository {
             concertHall.setColumnSize(rs.getInt(4));
 
             return Optional.of(concertHall);
+        };
+    }
+
+    private RowMapper<Image> imageRowMapper() {
+        return (rs, rowNum) -> {
+            Image image = new Image();
+
+            image.setUploadName(rs.getString(1));
+            image.setStoreName(rs.getString(2));
+            image.setConcertId(rs.getLong(3));
+
+            return image;
         };
     }
 }
