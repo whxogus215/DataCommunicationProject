@@ -8,10 +8,10 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ConcertHall {
-    private Integer id;
+    private Long id;
     private String name;
-    private Integer capacity;
-    private Integer rowSize;
-    private Integer columnSize;
+    private Long capacity;
+    private Long rowSize;
+    private Long columnSize;
     private String address;
 }
