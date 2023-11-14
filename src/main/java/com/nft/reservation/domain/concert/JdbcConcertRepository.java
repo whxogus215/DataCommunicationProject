@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JdbcConcertRepository {
+    Long saveConcert(Concert concert);
+
     Optional<Concert> findById(Integer id);
     List<Seat> findBookedSeatById(Integer id);
 

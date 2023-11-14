@@ -31,6 +31,26 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     private final JdbcTemplate template;
 
     @Override
+    public Long saveConcert(Concert concert) {
+        String sql = "INSERT INTO CONCERT " +
+                "(title, date, running_time, cast_member, rank_id, hall_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        template.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, concert.getTitle());
+            ps.setString(2, concert.getDay());
+            ps.setLong(3, concert.getRunningTime());
+            ps.setString(4, concert.getCastMember());
+            ps.setLong(5, concert.getRankId());
+            ps.setLong(6, concert.getHallId());
+            return ps;
+        }, keyHolder);
+        long id = keyHolder.getKey().longValue();
+        return id;
+    }
+
+    @Override
     public Optional<Concert> findById(Integer id) {
         String sql = "select * from concert where id = ?";
         return template.queryForObject(sql, concertRowMapper(), id);
