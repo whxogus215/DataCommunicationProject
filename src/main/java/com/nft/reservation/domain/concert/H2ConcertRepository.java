@@ -3,6 +3,7 @@ package com.nft.reservation.domain.concert;
 import com.nft.reservation.domain.concert.entity.Concert;
 import com.nft.reservation.domain.concert.entity.ConcertHall;
 import com.nft.reservation.domain.concert.entity.Seat;
+import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +18,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.JdbcUtils;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Slf4j
@@ -40,12 +43,21 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     }
 
     @Override
-    public Optional<ConcertHall> findConcertHallById(Integer id) {
-        String sql = "SELECT h.name, h.capacity, h.roww, h.column " +
-                "FROM concert AS c " +
-                "LEFT JOIN hall AS h ON c.hall_id = h.id " +
-                "WHERE c.id = ?";
-        return template.queryForObject(sql, concertHallRowMapper(), id);
+    public Long saveHall(ConcertHallDTO concertHallDTO) {
+        String sql = "INSERT INTO HALL (name, capacity, roww, column, address) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        template.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, concertHallDTO.getName());
+            ps.setInt(2, concertHallDTO.getCapacity());
+            ps.setInt(3, concertHallDTO.getRowSize());
+            ps.setInt(4, concertHallDTO.getColumnSize());
+            ps.setString(5, concertHallDTO.getAddress());
+            return ps;
+        }, keyHolder);
+        long id = keyHolder.getKey().longValue();
+        return id;
     }
 
     @Override
@@ -55,6 +67,19 @@ public class H2ConcertRepository implements JdbcConcertRepository {
             return template.queryForObject(sql, Long.class, name);
         } catch (EmptyResultDataAccessException e) {
             return null;
+        }
+    }
+
+    @Override
+    public Optional<ConcertHall> findConcertHallById(Long id) {
+        String sql = "SELECT h.name, h.capacity, h.roww, h.column " +
+                "FROM concert AS c " +
+                "LEFT JOIN hall AS h ON c.hall_id = h.id " +
+                "WHERE c.id = ?";
+        try {
+            return template.queryForObject(sql, concertHallRowMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
         }
     }
 
