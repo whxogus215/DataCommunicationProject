@@ -1,6 +1,7 @@
 package com.nft.reservation.web.concert;
 
 import com.google.gson.JsonArray;
+import com.nft.reservation.domain.image.UploadImage;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.domain.concert.ConcertService;
 import com.nft.reservation.web.concert.dto.ConcertForm;
@@ -60,8 +61,8 @@ public class ConcertController {
         // 특정 공연의 공연장 크기 조회
         ConcertHallDTO concertHallDTO = concertService.getConcertHallSize(id);
 
-        int rowOfPlace = concertHallDTO.getRowSize();
-        int columnOfPlace = concertHallDTO.getColumnSize();
+        long rowOfPlace = concertHallDTO.getRowSize();
+        long columnOfPlace = concertHallDTO.getColumnSize();
 
         for (int i = 1; i <= rowOfPlace; i++) {
             for (int j = 1; j <= columnOfPlace; j++) {
@@ -92,28 +93,18 @@ public class ConcertController {
         // 요청 값(JSON 배열) : [{row : 0, col: 'B'}, {row : 1, col: 'B'}]
         return null;
     }
-
+    
+    // 공연 등록 폼 페이지 조회
     @GetMapping("/new")
     public String getConcertForm() {
         return "concert-form";
     }
 
+    // 공연 등록
     @PostMapping("/new")
     @ResponseBody
     public String addConcert(@ModelAttribute ConcertForm form) {
-        log.info("공연 제목={}", form.getConcertTitle());
-        log.info("공연 날짜={}", form.getConcertDay());
-        log.info("공연 시간={}", form.getRunningTime());
-        log.info("출연진={}", form.getCastMember());
-        log.info("공연장 이름={}", form.getHallName());
-        log.info("관람 등급={}", form.getRankDetail());
-
-        log.info("썸네일 사진={}", form.getThumbnailImage());
-        log.info("캐러셀 사진={}", form.getCarouselImage());
-        List<MultipartFile> contentImages = form.getContentImages();
-        for (MultipartFile contentImage : contentImages) {
-            log.info("본문 사진={}", contentImage);
-        }
+        concertService.createConcert(form);
 
         return "OK";
     }
