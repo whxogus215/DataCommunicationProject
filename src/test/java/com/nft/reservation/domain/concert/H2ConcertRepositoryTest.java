@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.nft.reservation.domain.concert.entity.Concert;
 import com.nft.reservation.domain.concert.entity.ConcertHall;
+import com.nft.reservation.domain.concert.entity.Image;
 import com.nft.reservation.domain.concert.entity.Seat;
+import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import com.zaxxer.hikari.HikariDataSource;
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +18,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @SpringBootTest
+@Transactional
 class H2ConcertRepositoryTest {
 
     private String url = "jdbc:h2:tcp://localhost/~/test";
@@ -71,7 +75,7 @@ class H2ConcertRepositoryTest {
     @Test
     @DisplayName("특정 공연의 공연장 조회 메서드 테스트")
     void findConcertHallByIdTest() {
-        int testId = 1;
+        long testId = 1;
 
         Optional<ConcertHall> concertHallById = jdbcConcertRepository.findConcertHallById(testId);
 
@@ -95,5 +99,16 @@ class H2ConcertRepositoryTest {
         String name = "KSPO";
         Long findId = jdbcConcertRepository.findConcertHallIdByName(name);
         assertThat(findId).isNull();
+    }
+
+    @Test
+    @DisplayName("이미지 저장 테스트")
+    void saveImageTest() {
+        Image image = new Image("테스트1", "테스트1 업로드", 4L);
+
+        jdbcConcertRepository.saveImage(image);
+        Image findImage = jdbcConcertRepository.findImageByConcertId(4L);
+
+        assertThat(image.getUploadName()).isEqualTo(findImage.getUploadName());
     }
 }
