@@ -38,9 +38,6 @@ public class ImageStore {
          * 2. 생성한 UUID와 파일 확장자를 더한 서버 저장 파일 이름 반환
          */
         String storeImageName = createStoreImage(originalImageName);
-        System.out.println(fileDir);
-        System.out.println(storeImageName);
-        System.out.println(getFullPath(storeImageName));
         multipartFile.transferTo(new File(getFullPath(storeImageName)));
         return new UploadImage(originalImageName, storeImageName);
     }
