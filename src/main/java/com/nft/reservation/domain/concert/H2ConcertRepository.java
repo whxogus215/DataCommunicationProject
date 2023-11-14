@@ -71,9 +71,9 @@ public class H2ConcertRepository implements JdbcConcertRepository {
         template.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setString(1, concertHallDTO.getName());
-            ps.setInt(2, concertHallDTO.getCapacity());
-            ps.setInt(3, concertHallDTO.getRowSize());
-            ps.setInt(4, concertHallDTO.getColumnSize());
+            ps.setLong(2, concertHallDTO.getCapacity());
+            ps.setLong(3, concertHallDTO.getRowSize());
+            ps.setLong(4, concertHallDTO.getColumnSize());
             ps.setString(5, concertHallDTO.getAddress());
             return ps;
         }, keyHolder);
@@ -189,9 +189,9 @@ public class H2ConcertRepository implements JdbcConcertRepository {
             ConcertHall concertHall = new ConcertHall();
 
             concertHall.setName(rs.getString(1));
-            concertHall.setCapacity(rs.getInt(2));
-            concertHall.setRowSize(rs.getInt(3));
-            concertHall.setColumnSize(rs.getInt(4));
+            concertHall.setCapacity(rs.getLong(2));
+            concertHall.setRowSize(rs.getLong(3));
+            concertHall.setColumnSize(rs.getLong(4));
 
             return Optional.of(concertHall);
         };
