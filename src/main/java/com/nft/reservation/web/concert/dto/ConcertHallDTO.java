@@ -10,4 +10,5 @@ public class ConcertHallDTO {
     private Integer capacity;
     private Integer rowSize;
     private Integer columnSize;
+    private String address;
 }

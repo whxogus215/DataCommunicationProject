@@ -13,4 +13,5 @@ public class ConcertHall {
     private Integer capacity;
     private Integer rowSize;
     private Integer columnSize;
+    private String address;
 }
