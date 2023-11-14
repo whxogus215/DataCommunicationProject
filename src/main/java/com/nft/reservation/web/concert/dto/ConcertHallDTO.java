@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class ConcertHallDTO {
     private String name;
-    private Integer capacity;
-    private Integer rowSize;
-    private Integer columnSize;
+    private Long capacity;
+    private Long rowSize;
+    private Long columnSize;
     private String address;
 }

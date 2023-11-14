@@ -10,9 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class ConcertForm {
     private ConcertDTO concertDTO;
 
-    private String hallCapacity;
-    private String hallRow;
-    private String hallColumn;
+    private Long hallCapacity;
+    private Long hallRow;
+    private Long hallColumn;
 
     private MultipartFile thumbnailImage;
     private MultipartFile carouselImage;
