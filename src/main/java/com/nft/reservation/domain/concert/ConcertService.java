@@ -7,8 +7,8 @@ import com.nft.reservation.web.concert.dto.SeatDTO;
 import java.util.List;
 
 public interface ConcertService {
+    ConcertDTO createConcert(ConcertForm concertForm);
     ConcertDTO getConcertDetail(Integer concertId);
     List<SeatDTO> getConcertSeat(Integer concertId);
     ConcertHallDTO getConcertHallSize(Integer concertId);
-    void createConcert(ConcertForm concertForm);
 }
