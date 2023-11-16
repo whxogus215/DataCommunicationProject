@@ -113,10 +113,4 @@ public class ConcertController {
 
         return "OK";
     }
-
-    @GetMapping("/images/{filename}")
-    @ResponseBody
-    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
-        return concertService.getDownloadImage(filename);
-    }
 }
