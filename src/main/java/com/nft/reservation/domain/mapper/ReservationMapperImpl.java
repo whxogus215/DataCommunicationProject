@@ -23,8 +23,6 @@ public class ReservationMapperImpl implements ReservationMapper {
         concertDTO.setDay(concert.getDay());
         concertDTO.setRunningTime(concert.getRunningTime());
 
-        // 임시 데이터 추가
-        concertDTO.setHallAddress("서울특별시 송파구 올림픽로 424");
 
         return concertDTO;
     }
