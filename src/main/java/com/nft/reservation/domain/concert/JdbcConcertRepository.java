@@ -4,14 +4,15 @@ import com.nft.reservation.domain.concert.entity.Concert;
 import com.nft.reservation.domain.concert.entity.ConcertHall;
 import com.nft.reservation.domain.concert.entity.Image;
 import com.nft.reservation.domain.concert.entity.Seat;
+import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import java.util.List;
 import java.util.Optional;
 
 public interface JdbcConcertRepository {
     Long saveConcert(Concert concert);
+    Optional<ConcertDTO> findConcertById(Integer id);
 
-    Optional<Concert> findById(Integer id);
     List<Seat> findBookedSeatById(Integer id);
 
     Long saveHall(ConcertHallDTO concertHallDTO);

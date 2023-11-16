@@ -4,6 +4,7 @@ import com.nft.reservation.domain.concert.entity.Concert;
 import com.nft.reservation.domain.concert.entity.ConcertHall;
 import com.nft.reservation.domain.concert.entity.Image;
 import com.nft.reservation.domain.concert.entity.Seat;
+import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,9 +53,14 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     }
 
     @Override
-    public Optional<Concert> findById(Integer id) {
-        String sql = "select * from concert where id = ?";
-        return template.queryForObject(sql, concertRowMapper(), id);
+    public Optional<ConcertDTO> findConcertById(Integer id) {
+        String sql = "SELECT c.id, c.title, c.date, c.running_time, c.cast_member, " +
+                "h.name, h.address, r.detail " +
+                "FROM concert AS c " +
+                "JOIN hall AS h ON c.hall_id = h.id " +
+                "JOIN rank AS r ON c.rank_id = r.id " +
+                "WHERE c.id = ?";
+        return template.queryForObject(sql, concertDtoRowMapper(), id);
     }
 
     @Override
@@ -152,19 +158,20 @@ public class H2ConcertRepository implements JdbcConcertRepository {
         }
     }
 
-    private RowMapper<Optional<Concert>> concertRowMapper() {
+    private RowMapper<Optional<ConcertDTO>> concertDtoRowMapper() {
         return (rs, rowNum) -> {
-            Concert concert = new Concert();
+            ConcertDTO concertDTO = new ConcertDTO();
 
-            concert.setId(rs.getLong(1));
-            concert.setTitle(rs.getString(2));
-            concert.setDay(rs.getString(3));
-            concert.setRunningTime(rs.getLong(4));
-            concert.setCastMember(rs.getString(5));
-            concert.setRankId(rs.getLong(6));
-            concert.setHallId(rs.getLong(7));
+            concertDTO.setId(rs.getLong(1));
+            concertDTO.setTitle(rs.getString(2));
+            concertDTO.setDay(rs.getString(3));
+            concertDTO.setRunningTime(rs.getLong(4));
+            concertDTO.setCastMember(rs.getString(5));
+            concertDTO.setHallName(rs.getString(6));
+            concertDTO.setHallAddress(rs.getString(7));
+            concertDTO.setRate(rs.getString(8));
 
-            return Optional.of(concert);
+            return Optional.of(concertDTO);
         };
     }
 

@@ -109,21 +109,15 @@ public class ConcertServiceImpl implements ConcertService {
         }
 
         return mapper.concertToConcertResponseDTO(concert);
-        // HTML로 테스트 이후 리팩토링
-        // 다운로드 구현
     }
 
     @Override
     public ConcertDTO getConcertDetail(Integer concertId) {
         // 컨트롤러에게 전달받은 콘서트 ID로 DAO에 find 메서드 조회
-        Optional<Concert> findConcert = repository.findById(concertId);
+        Optional<ConcertDTO> findConcert = repository.findConcertById(concertId);
         // 컨트롤러에서 반환하기 위해 필요한 정보들만 담아서 반환 (DTO 객체)
-        if (findConcert.isPresent()) {
-            // Optional 객체가 null이 아닐 경우, DTO로 변환해서 반환
-            Concert concert = findConcert.get();
-            return mapper.concertToConcertResponseDTO(concert);
-        }
-        return null;
+        // Optional 객체가 null이 아닐 경우, DTO로 변환해서 반환
+        return findConcert.orElse(null);
     }
 
     @Override
