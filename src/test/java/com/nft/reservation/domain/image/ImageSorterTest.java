@@ -27,4 +27,15 @@ class ImageSorterTest {
         Image thumbNail = ImageSorter.getThumbNail(findImages);
         assertThat(thumbNail.getUploadName()).contains("썸네일");
     }
+
+    @Test
+    @DisplayName("이미지 업로드명에 캐러셀이 들어간 이미지 반환 테스트")
+    void getCarouselTest() {
+        Long findId = 101L;
+
+        List<Image> findImages = repository.findImageByConcertId(findId);
+
+        Image carousel = ImageSorter.getCarousel(findImages);
+        assertThat(carousel.getUploadName()).contains("캐러셀");
+    }
 }
