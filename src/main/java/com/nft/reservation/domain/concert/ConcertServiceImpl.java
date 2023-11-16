@@ -74,11 +74,10 @@ public class ConcertServiceImpl implements ConcertService {
             concert.setRankId(findRankId);
         }
 
-        log.info("공연 DTO에서 변환된 공연 엔티티 = {}", concert);
-
         // 공연 엔티티 DB에 저장
         // 반환된 공연 ID 가져오기
         Long saveConcertId = repository.saveConcert(concert);
+        concert.setId(saveConcertId);
 
         // 5. 공연 폼에서 이미지를 가져와서 파일 저장
         // 썸네일, 캐러셀, 본문 사진 전부 List<UploadImage>로 변환하기
@@ -107,6 +106,8 @@ public class ConcertServiceImpl implements ConcertService {
             // Image 저장 메서드 구현
             repository.saveImage(image);
         }
+
+        log.info("생성된 콘서트 엔티티={}", concert);
 
         return mapper.concertToConcertResponseDTO(concert);
     }
