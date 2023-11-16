@@ -21,7 +21,10 @@ public class ImageSorter {
     }
 
     public static Image getCarousel(List<Image> images) {
-        return null;
+        return images.stream()
+                .filter(image -> image.getUploadName().contains(CAROUSEL))
+                .findAny()
+                .orElse(null);
     }
 
     public static List<Image> getContents(List<Image> images) {
