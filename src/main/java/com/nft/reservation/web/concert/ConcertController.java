@@ -1,6 +1,7 @@
 package com.nft.reservation.web.concert;
 
 import com.google.gson.JsonArray;
+import com.nft.reservation.domain.image.ImageStore;
 import com.nft.reservation.domain.image.UploadImage;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.domain.concert.ConcertService;
@@ -9,10 +10,13 @@ import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import com.nft.reservation.web.concert.dto.SeatDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.net.MalformedURLException;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ConcertController {
 
     private final ConcertService concertService;
+    private  final ImageStore imageStore;
 
     @GetMapping("/list")
     public void getList() {
@@ -46,7 +51,7 @@ public class ConcertController {
     @GetMapping("/detail/{id}")
     @ResponseBody
     @Operation(summary = "특정 공연 페이지 상세 조회")
-    public ConcertDTO getDetailByID(@PathVariable("id") Integer id) {
+    public ConcertDTO getDetailByID(@PathVariable("id") Long id) {
         // 특정 공연 페이지 상세 조회
         return concertService.getConcertDetail(id);
     }
@@ -54,7 +59,7 @@ public class ConcertController {
     @GetMapping("/detail/{id}/book")
     @ResponseBody
     @Operation(summary = "특정 공연의 좌석 페이지 조회")
-    public List<SeatDTO> getBookableSeat(@PathVariable("id") Integer id) {
+    public List<SeatDTO> getBookableSeat(@PathVariable("id") Long id) {
         // 예매된 좌석 리스트 조회
         List<SeatDTO> concertSeat = concertService.getConcertSeat(id);
 
@@ -87,13 +92,13 @@ public class ConcertController {
 
     @PostMapping("/detail/{id}/book")
     @ResponseBody
-    public String postBookableSeat(@PathVariable("id") Integer id,
+    public String postBookableSeat(@PathVariable("id") Long id,
                                    @RequestBody List<SeatDTO> seatDTOs) {
         // 특정 공연의 좌석 예매
         // 요청 값(JSON 배열) : [{row : 0, col: 'B'}, {row : 1, col: 'B'}]
         return null;
     }
-    
+
     // 공연 등록 폼 페이지 조회
     @GetMapping("/new")
     public String getConcertForm() {
@@ -107,5 +112,11 @@ public class ConcertController {
         concertService.createConcert(form);
 
         return "OK";
+    }
+
+    @GetMapping("/images/{filename}")
+    @ResponseBody
+    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
+        return concertService.getDownloadImage(filename);
     }
 }
