@@ -103,13 +103,12 @@ class H2ConcertRepositoryTest {
     }
 
     @Test
-    @DisplayName("이미지 저장 테스트")
-    void saveImageTest() {
-        Image image = new Image("테스트1", "테스트1 업로드", 4L);
+    @DisplayName("특정 공연 ID로 여러 이미지 조회 테스트")
+    void findImagesByConcertIdTest() {
+        Long conertId = 101L;
+        List<Image> findImages = jdbcConcertRepository.findImageByConcertId(conertId);
 
-        jdbcConcertRepository.saveImage(image);
-        Image findImage = jdbcConcertRepository.findImageByConcertId(4L);
-
-        assertThat(image.getUploadName()).isEqualTo(findImage.getUploadName());
+        assertThat(findImages.get(0).getUploadName()).isEqualTo("본문1.jpg");
+        assertThat(findImages.get(0).getConcertId()).isEqualTo(conertId);
     }
 }
