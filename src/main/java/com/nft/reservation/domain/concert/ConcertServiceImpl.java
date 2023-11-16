@@ -4,6 +4,7 @@ import com.nft.reservation.domain.concert.entity.Concert;
 import com.nft.reservation.domain.concert.entity.ConcertHall;
 import com.nft.reservation.domain.concert.entity.Image;
 import com.nft.reservation.domain.concert.entity.Seat;
+import com.nft.reservation.domain.image.ImageSorter;
 import com.nft.reservation.domain.image.ImageStore;
 import com.nft.reservation.domain.image.UploadImage;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,10 +28,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class ConcertServiceImpl implements ConcertService {
 
     private final JdbcConcertRepository repository;
-
     private final ReservationMapper mapper;
-
     private final ImageStore imageStore;
+    private final ImageSorter imageSorter;
 
     @Override
     public ConcertDTO createConcert(ConcertForm concertForm) {
@@ -118,12 +119,26 @@ public class ConcertServiceImpl implements ConcertService {
         Optional<ConcertDTO> findConcert = repository.findConcertById(concertId);
 
         // 해당 ID로 이미지 리스트 조회
-        repository.findImageByConcertId(concertId);
+        List<Image> findImages = repository.findImageByConcertId(concertId);
 
+        Image thumbNail = ImageSorter.getThumbNail(findImages);
+        Image carousel = ImageSorter.getCarousel(findImages);
+
+        List<Image> contents = ImageSorter.getContents(findImages);
+        List<String> contentUrls = contents.stream()
+                .map(Image::getStoreName)
+                .toList();
+        ConcertDTO concertDTO = null;
+        if (findConcert.isPresent()) {
+            concertDTO = findConcert.get();
+            concertDTO.setThumbnailUrl(thumbNail.getStoreName());
+            concertDTO.setCarouselUrl(carousel.getStoreName());
+            concertDTO.setImages(contentUrls);
+        }
 
         // 컨트롤러에서 반환하기 위해 필요한 정보들만 담아서 반환 (DTO 객체)
         // Optional 객체가 null이 아닐 경우, DTO로 변환해서 반환
-        return findConcert.orElse(null);
+        return concertDTO;
     }
 
     @Override
