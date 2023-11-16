@@ -1,7 +1,9 @@
 package com.nft.reservation.domain.image;
 
 import com.nft.reservation.domain.concert.entity.Image;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,11 +30,9 @@ public class ImageSorter {
     }
 
     public static List<Image> getContents(List<Image> images) {
-        return null;
+        return images.stream()
+                .filter(image -> image.getUploadName().contains(CONTENT))
+                .sorted(Comparator.comparing(Image::getUploadName))
+                .collect(Collectors.toList());
     }
-
-
-
-
-
 }
