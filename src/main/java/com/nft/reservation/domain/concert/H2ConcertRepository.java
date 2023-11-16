@@ -47,7 +47,7 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     }
 
     @Override
-    public Optional<ConcertDTO> findConcertById(Integer id) {
+    public Optional<ConcertDTO> findConcertById(Long id) {
         String sql = "SELECT c.id, c.title, c.date, c.running_time, c.cast_member, " +
                 "h.name, h.address, r.detail " +
                 "FROM concert AS c " +
@@ -58,7 +58,7 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     }
 
     @Override
-    public List<Seat> findBookedSeatById(Integer id) {
+    public List<Seat> findBookedSeatById(Long id) {
         String sql = "select * from seat where id = ?";
         return template.queryForObject(sql, seatRowMapper(), id);
     }

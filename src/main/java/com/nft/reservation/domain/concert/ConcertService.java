@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ConcertService {
     ConcertDTO createConcert(ConcertForm concertForm);
-    ConcertDTO getConcertDetail(Integer concertId);
-    List<SeatDTO> getConcertSeat(Integer concertId);
-    ConcertHallDTO getConcertHallSize(Integer concertId);
+    ConcertDTO getConcertDetail(Long concertId);
+    List<SeatDTO> getConcertSeat(Long concertId);
+    ConcertHallDTO getConcertHallSize(Long concertId);
 }

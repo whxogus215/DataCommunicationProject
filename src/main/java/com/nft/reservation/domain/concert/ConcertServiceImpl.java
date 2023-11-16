@@ -113,16 +113,21 @@ public class ConcertServiceImpl implements ConcertService {
     }
 
     @Override
-    public ConcertDTO getConcertDetail(Integer concertId) {
+    public ConcertDTO getConcertDetail(Long concertId) {
         // 컨트롤러에게 전달받은 콘서트 ID로 DAO에 find 메서드 조회
         Optional<ConcertDTO> findConcert = repository.findConcertById(concertId);
+
+        // 해당 ID로 이미지 리스트 조회
+        repository.findImageByConcertId(concertId);
+
+
         // 컨트롤러에서 반환하기 위해 필요한 정보들만 담아서 반환 (DTO 객체)
         // Optional 객체가 null이 아닐 경우, DTO로 변환해서 반환
         return findConcert.orElse(null);
     }
 
     @Override
-    public List<SeatDTO> getConcertSeat(Integer concertId) {
+    public List<SeatDTO> getConcertSeat(Long concertId) {
         List<Seat> bookedSeats = repository.findBookedSeatById(concertId);
 
         List<SeatDTO> dtoBookedSeats = new ArrayList<>();
@@ -136,7 +141,7 @@ public class ConcertServiceImpl implements ConcertService {
     }
 
     @Override
-    public ConcertHallDTO getConcertHallSize(Integer concertId) {
+    public ConcertHallDTO getConcertHallSize(Long concertId) {
         // repository에서 해당 공연 ID와 연결된 공연장 정보 가져오기
         Optional<ConcertHall> concertHallById = repository.findConcertHallById(
                 Long.valueOf(concertId));

@@ -53,7 +53,7 @@ class H2ConcertRepositoryTest {
     @Test
     @DisplayName("특정 공연 조회 메서드 테스트")
     void findByIdTest() {
-        int testId = 1;
+        long testId = 1;
 
         Optional<ConcertDTO> findConcert = jdbcConcertRepository.findConcertById(testId);
 
@@ -65,7 +65,7 @@ class H2ConcertRepositoryTest {
     @Test
     @DisplayName("특정 공연의 좌석 조회 메서드 테스트")
     void findBookedSeatByIdTest() {
-        int testId = 1;
+        long testId = 1;
 
         List<Seat> bookedSeatById = jdbcConcertRepository.findBookedSeatById(testId);
 
