@@ -6,22 +6,16 @@ import com.nft.reservation.domain.concert.entity.Image;
 import com.nft.reservation.domain.concert.entity.Seat;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
@@ -149,10 +143,10 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     }
 
     @Override
-    public Image findImageByConcertId(Long id) {
+    public List<Image> findImageByConcertId(Long id) {
         String sql = "SELECT upload_name, store_name, concert_id FROM image WHERE concert_id = ?";
         try {
-            return template.queryForObject(sql, imageRowMapper(), id);
+            return template.query(sql, imageRowMapper(), id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

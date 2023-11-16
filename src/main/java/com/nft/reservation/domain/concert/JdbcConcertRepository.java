@@ -27,5 +27,5 @@ public interface JdbcConcertRepository {
 
     Long saveImage(Image image);
 
-    Image findImageByConcertId(Long id);
+    List<Image> findImageByConcertId(Long id);
 }
