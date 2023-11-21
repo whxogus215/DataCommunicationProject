@@ -30,6 +30,6 @@ public interface JdbcConcertRepository {
     Long saveImage(Image image);
     List<Image> findImageByConcertId(Long id);
 
-    void updateMintCount();
+    Long updateMintCount(Long count);
     Long getMintCount();
 }
