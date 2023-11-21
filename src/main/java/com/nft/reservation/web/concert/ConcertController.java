@@ -1,22 +1,18 @@
 package com.nft.reservation.web.concert;
 
-import com.google.gson.JsonArray;
 import com.nft.reservation.domain.image.ImageStore;
-import com.nft.reservation.domain.image.UploadImage;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
-import com.nft.reservation.domain.concert.ConcertService;
+import com.nft.reservation.domain.concert.service.ConcertService;
 import com.nft.reservation.web.concert.dto.ConcertForm;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import com.nft.reservation.web.concert.dto.SeatDTO;
+import com.nft.reservation.web.concert.dto.SeatResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.net.MalformedURLException;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,8 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "콘서트", description = "콘서트 관련 API")
 @Slf4j
@@ -38,6 +32,7 @@ public class ConcertController {
     private final ConcertService concertService;
     private  final ImageStore imageStore;
 
+    /**
     @GetMapping("/list")
     public void getList() {
         // 공연 목록 조회        
@@ -47,6 +42,7 @@ public class ConcertController {
     public void getListForCarousel() {
         // 캐러샐 및 홈 화면에 조회되는 목록 조회    
     }
+     **/
 
     @GetMapping("/detail/{id}")
     @ResponseBody
@@ -92,11 +88,18 @@ public class ConcertController {
 
     @PostMapping("/detail/{id}/book")
     @ResponseBody
-    public String postBookableSeat(@PathVariable("id") Long id,
-                                   @RequestBody List<SeatDTO> seatDTOs) {
+    @Operation(summary = "특정 공연의 좌석 예약")
+    public SeatResponse postBookableSeat(@PathVariable("id") Long id,
+                                         @RequestBody List<SeatDTO> seatDTOs) {
         // 특정 공연의 좌석 예매
         // 요청 값(JSON 배열) : [{row : 0, col: 'B'}, {row : 1, col: 'B'}]
-        return null;
+
+        /**
+         * 토큰 발행 값 : 0x1.......
+         * 응답 값(JSON 배열) : [{row : 0, col: 'B'}, {row : 1, col: 'B'}]
+         */
+
+        return new SeatResponse();
     }
 
     // 공연 등록 폼 페이지 조회

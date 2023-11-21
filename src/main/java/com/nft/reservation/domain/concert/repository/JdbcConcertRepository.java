@@ -1,4 +1,4 @@
-package com.nft.reservation.domain.concert;
+package com.nft.reservation.domain.concert.repository;
 
 import com.nft.reservation.domain.concert.entity.Concert;
 import com.nft.reservation.domain.concert.entity.ConcertHall;

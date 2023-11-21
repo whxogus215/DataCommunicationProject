@@ -1,13 +1,11 @@
 package com.nft.reservation.domain.image;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
-import com.nft.reservation.domain.concert.JdbcConcertRepository;
+import com.nft.reservation.domain.concert.repository.JdbcConcertRepository;
 import com.nft.reservation.domain.concert.entity.Image;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

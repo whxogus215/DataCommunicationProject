@@ -1,5 +1,6 @@
-package com.nft.reservation.domain.concert;
+package com.nft.reservation.domain.concert.service;
 
+import com.nft.reservation.domain.concert.repository.JdbcConcertRepository;
 import com.nft.reservation.domain.concert.entity.Concert;
 import com.nft.reservation.domain.concert.entity.ConcertHall;
 import com.nft.reservation.domain.concert.entity.Image;
@@ -18,7 +19,6 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;

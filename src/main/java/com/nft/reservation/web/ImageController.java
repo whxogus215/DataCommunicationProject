@@ -1,6 +1,6 @@
 package com.nft.reservation.web;
 
-import com.nft.reservation.domain.concert.ConcertService;
+import com.nft.reservation.domain.concert.service.ConcertService;
 import java.net.MalformedURLException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
