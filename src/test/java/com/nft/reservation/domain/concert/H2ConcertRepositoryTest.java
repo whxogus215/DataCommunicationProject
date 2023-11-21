@@ -8,6 +8,7 @@ import com.nft.reservation.domain.concert.entity.Seat;
 import com.nft.reservation.domain.concert.repository.H2ConcertRepository;
 import com.nft.reservation.domain.concert.repository.JdbcConcertRepository;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
+import com.nft.reservation.web.concert.dto.SeatDTO;
 import com.zaxxer.hikari.HikariDataSource;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +61,24 @@ class H2ConcertRepositoryTest {
 
         log.info("조회한 Concert 출력 : {}", findConcert.get());
     }
+
+    @Test
+    @DisplayName("특정 공연의 좌석 예매 테스트")
+    void saveSeatByIdTest() {
+        long testId = 1;
+
+        SeatDTO seatDTO = new SeatDTO();
+        seatDTO.setRow(1);
+        seatDTO.setCol('A');
+
+        jdbcConcertRepository.saveSeatById(testId, seatDTO);
+        List<Seat> bookedSeats = jdbcConcertRepository.findBookedSeatById(testId);
+
+        Seat findSeat = bookedSeats.get(0);
+        assertThat(findSeat.getRow()).isEqualTo(seatDTO.getRow());
+        assertThat(findSeat.getCol()).isEqualTo(seatDTO.getCol());
+    }
+
 
     @Test
     @DisplayName("특정 공연의 좌석 조회 메서드 테스트")
