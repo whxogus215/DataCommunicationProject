@@ -59,7 +59,7 @@ public class H2ConcertRepository implements JdbcConcertRepository {
 
     @Override
     public List<Seat> findBookedSeatById(Long id) {
-        String sql = "select * from seat where id = ?";
+        String sql = "select * from seat where concert_id = ?";
         return template.queryForObject(sql, seatRowMapper(), id);
     }
 
