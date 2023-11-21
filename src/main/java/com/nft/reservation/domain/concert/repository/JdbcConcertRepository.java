@@ -28,6 +28,8 @@ public interface JdbcConcertRepository {
     Long findRankIdByDetail(String detail);
 
     Long saveImage(Image image);
-
     List<Image> findImageByConcertId(Long id);
+
+    void updateMintCount();
+    Long getMintCount();
 }
