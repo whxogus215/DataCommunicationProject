@@ -6,6 +6,7 @@ import com.nft.reservation.domain.concert.entity.Image;
 import com.nft.reservation.domain.concert.entity.Seat;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
+import com.nft.reservation.web.concert.dto.SeatDTO;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,14 @@ public class H2ConcertRepository implements JdbcConcertRepository {
         return template.queryForObject(sql, concertDtoRowMapper(), id);
     }
 
+    @Override
+    public SeatDTO saveSeatById(Long id, SeatDTO seatDTO) {
+        String sql = "insert into seat (roww, column, is_book, concert_id) " +
+                "values (?, ?, ?, ?)";
+        template.update(sql, seatDTO.getRow(), seatDTO.getCol(), true, id);
+
+        return seatDTO;
+    }
     @Override
     public List<Seat> findBookedSeatById(Long id) {
         String sql = "select * from seat where concert_id = ?";
