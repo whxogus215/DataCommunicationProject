@@ -12,6 +12,7 @@ import com.nft.reservation.web.concert.dto.ConcertForm;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import com.nft.reservation.web.concert.dto.SeatDTO;
 import com.nft.reservation.domain.mapper.ReservationMapper;
+import com.nft.reservation.web.concert.dto.SeatResponse;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -171,6 +172,16 @@ public class ConcertServiceImpl implements ConcertService {
         }
 
         return dtoBookedSeats;
+    }
+
+    @Override
+    @Transactional
+    public SeatResponse reserveSeats(Long concertId, List<SeatDTO> seatDTOs) {
+        // seatDTOs에 있는 좌석들 Update 및 좌석 반환 받기
+
+        // 중복되지 않는 토큰 값 생성
+
+        return new SeatResponse();
     }
 
     @Override
