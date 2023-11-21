@@ -177,8 +177,13 @@ public class ConcertServiceImpl implements ConcertService {
     @Override
     @Transactional
     public SeatResponse reserveSeats(Long concertId, List<SeatDTO> seatDTOs) {
-        // seatDTOs에 있는 좌석들 Update 및 좌석 반환 받기
+        List<SeatDTO> reservedSeats = new ArrayList<>();
 
+        // seatDTOs에 있는 좌석들 Update 및 좌석 반환 받기
+        for (SeatDTO seatDTO : seatDTOs) {
+            SeatDTO savedSeat = repository.saveSeatById(concertId, seatDTO);
+            reservedSeats.add(savedSeat);
+        }
         // 중복되지 않는 토큰 값 생성
 
         return new SeatResponse();
