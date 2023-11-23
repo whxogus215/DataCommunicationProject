@@ -69,7 +69,7 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     @Override
     public List<Seat> findBookedSeatById(Long id) {
         String sql = "select * from seat where concert_id = ?";
-        return template.queryForObject(sql, seatRowMapper(), id);
+        return template.query(sql, seatRowMapper(), id);
     }
 
     @Override
@@ -191,7 +191,7 @@ public class H2ConcertRepository implements JdbcConcertRepository {
         };
     }
 
-    private RowMapper<List<Seat>> seatRowMapper() {
+    /*private RowMapper<List<Seat>> seatRowMapper() {
         return (rs, rowNum) -> {
             List<Seat> seats = new ArrayList<>();
 
@@ -204,6 +204,19 @@ public class H2ConcertRepository implements JdbcConcertRepository {
             seats.add(seat);
 
             return seats;
+        };
+    }*/
+
+    private RowMapper<Seat> seatRowMapper() {
+        return (rs, rowNum) -> {
+            Seat seat = new Seat();
+
+            seat.setRow(rs.getInt(2));
+            seat.setCol(rs.getString(3).charAt(0));
+            seat.setData(rs.getBoolean(4));
+
+
+            return seat;
         };
     }
 
