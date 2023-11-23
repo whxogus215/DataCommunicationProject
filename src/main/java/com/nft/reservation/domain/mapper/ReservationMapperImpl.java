@@ -52,7 +52,7 @@ public class ReservationMapperImpl implements ReservationMapper {
 
         seatDTO.setRow(seat.getRow());
         seatDTO.setCol(seat.getCol());
-        seatDTO.setData(seat.isData());
+        seatDTO.setBooked(seat.isData());
 
         return seatDTO;
     }

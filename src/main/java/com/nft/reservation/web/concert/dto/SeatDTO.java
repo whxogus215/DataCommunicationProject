@@ -11,7 +11,7 @@ public class SeatDTO {
     private Character col;
 
     // 좌석 예매 여부 : true / false
-    private boolean data;
+    private boolean isBooked;
 
     @Override
     public boolean equals(Object object) {
@@ -22,12 +22,12 @@ public class SeatDTO {
             return false;
         }
         SeatDTO seatDTO = (SeatDTO) object;
-        return data == seatDTO.data && Objects.equals(row, seatDTO.row)
+        return isBooked == seatDTO.isBooked && Objects.equals(row, seatDTO.row)
                 && Objects.equals(col, seatDTO.col);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(row, col, data);
+        return Objects.hash(row, col, isBooked);
     }
 }

@@ -71,10 +71,10 @@ public class ConcertController {
 
                 seatDTO.setRow(i);
                 seatDTO.setCol((char) (j + 64));
-                seatDTO.setData(true);
+                seatDTO.setBooked(true);
 
                 if (!concertSeat.contains(seatDTO)) {
-                    seatDTO.setData(false);
+                    seatDTO.setBooked(false);
                     concertSeat.add(seatDTO);
                 }
             }
