@@ -183,6 +183,7 @@ public class ConcertServiceImpl implements ConcertService {
         // seatDTOs에 있는 좌석들 Update 및 좌석 반환 받기
         for (SeatDTO seatDTO : seatDTOs) {
             SeatDTO savedSeat = repository.saveSeatById(concertId, seatDTO);
+            savedSeat.setData(true); // 저장된 좌석은 예약 됐음(true)으로 변경
             reservedSeats.add(savedSeat);
         }
         SeatResponse seatResponse = new SeatResponse();
@@ -190,7 +191,7 @@ public class ConcertServiceImpl implements ConcertService {
 
         Long currentMintCount = repository.getMintCount();
 
-        String tokenValue = TokenCreator.createMintToken(currentMintCount);
+        String tokenValue = TokenCreator.createMintToken(currentMintCount + 1);
         seatResponse.setCreatedToken(tokenValue);
 
         repository.updateMintCount(currentMintCount + 1);
