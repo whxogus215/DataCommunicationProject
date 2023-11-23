@@ -8,6 +8,7 @@ import com.nft.reservation.domain.concert.entity.Seat;
 import com.nft.reservation.domain.image.ImageSorter;
 import com.nft.reservation.domain.image.ImageStore;
 import com.nft.reservation.domain.image.UploadImage;
+import com.nft.reservation.domain.utils.TokenCreator;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.web.concert.dto.ConcertForm;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
@@ -184,9 +185,16 @@ public class ConcertServiceImpl implements ConcertService {
             SeatDTO savedSeat = repository.saveSeatById(concertId, seatDTO);
             reservedSeats.add(savedSeat);
         }
-        // 중복되지 않는 토큰 값 생성
+        SeatResponse seatResponse = new SeatResponse();
+        seatResponse.setReservedSeats(reservedSeats);
 
-        return new SeatResponse();
+        Long currentMintCount = repository.getMintCount();
+
+        String tokenValue = TokenCreator.createMintToken(currentMintCount);
+        seatResponse.setCreatedToken(tokenValue);
+
+        repository.updateMintCount(currentMintCount + 1);
+        return seatResponse;
     }
 
     @Override
