@@ -1,4 +1,4 @@
-package com.nft.reservation.web;
+package com.nft.reservation.web.image;
 
 import com.nft.reservation.domain.concert.service.ConcertService;
 import java.net.MalformedURLException;
