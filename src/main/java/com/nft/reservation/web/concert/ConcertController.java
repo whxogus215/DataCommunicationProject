@@ -91,15 +91,11 @@ public class ConcertController {
     @Operation(summary = "특정 공연의 좌석 예약")
     public SeatResponse postBookableSeat(@PathVariable("id") Long id,
                                          @RequestBody List<SeatDTO> seatDTOs) {
-        // 특정 공연의 좌석 예매
-        // 요청 값(JSON 배열) : [{row : 0, col: 'B'}, {row : 1, col: 'B'}]
-
         /**
          * 토큰 발행 값 : 0x1.......
          * 응답 값(JSON 배열) : [{row : 0, col: 'B'}, {row : 1, col: 'B'}]
          */
-
-        return new SeatResponse();
+        return concertService.reserveSeats(id, seatDTOs);
     }
 
     // 공연 등록 폼 페이지 조회
