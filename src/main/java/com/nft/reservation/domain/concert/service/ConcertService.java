@@ -12,6 +12,8 @@ import org.springframework.core.io.UrlResource;
 
 public interface ConcertService {
     ConcertDTO createConcert(ConcertForm concertForm);
+
+    List<ConcertDTO> getConcertList();
     ConcertDTO getConcertDetail(Long concertId);
 
     List<SeatDTO> getConcertSeat(Long concertId);

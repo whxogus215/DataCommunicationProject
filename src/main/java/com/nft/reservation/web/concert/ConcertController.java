@@ -9,6 +9,7 @@ import com.nft.reservation.web.concert.dto.SeatDTO;
 import com.nft.reservation.web.concert.dto.SeatResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -28,19 +29,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/concert")
 public class ConcertController {
-
     private final ConcertService concertService;
     private  final ImageStore imageStore;
 
-    /**
     @GetMapping("/list")
-    public void getList() {
-        // 공연 목록 조회        
+    @ResponseBody
+    @Operation(summary = "등록된 공연 목록 조회")
+    public List<ConcertDTO> getList() {
+        // 공연 목록 조회
+        return concertService.getConcertList();
     }
 
+    /**
     @GetMapping("/news")
     public void getListForCarousel() {
-        // 캐러샐 및 홈 화면에 조회되는 목록 조회    
+        // 캐러샐 및 홈 화면에 조회되는 목록 조회
     }
      **/
 

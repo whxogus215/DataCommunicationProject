@@ -48,6 +48,12 @@ public class H2ConcertRepository implements JdbcConcertRepository {
     }
 
     @Override
+    public List<Long> findConcertIDs() {
+        String sql = "select id from concert";
+        return template.queryForList(sql, Long.class);
+    }
+
+    @Override
     public Optional<ConcertDTO> findConcertById(Long id) {
         String sql = "SELECT c.id, c.title, c.date, c.running_time, c.cast_member, " +
                 "h.name, h.address, r.detail " +
@@ -63,6 +69,8 @@ public class H2ConcertRepository implements JdbcConcertRepository {
         String sql = "insert into seat (roww, column, is_book, concert_id) " +
                 "values (?, ?, ?, ?)";
         template.update(sql, seatDTO.getRow(), seatDTO.getCol(), true, id);
+        
+        // JdbcSQLIntegrityConstraintViolationException 예외 처리
 
         return seatDTO;
     }

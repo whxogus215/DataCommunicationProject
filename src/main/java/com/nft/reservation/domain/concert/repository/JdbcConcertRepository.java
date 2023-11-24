@@ -12,6 +12,8 @@ import java.util.Optional;
 
 public interface JdbcConcertRepository {
     Long saveConcert(Concert concert);
+
+    List<Long> findConcertIDs();
     Optional<ConcertDTO> findConcertById(Long id);
 
     SeatDTO saveSeatById(Long id, SeatDTO seatDTO);

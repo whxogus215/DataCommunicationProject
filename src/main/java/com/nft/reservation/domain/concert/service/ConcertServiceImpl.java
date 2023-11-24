@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -126,6 +127,14 @@ public class ConcertServiceImpl implements ConcertService {
         log.info("생성된 콘서트 엔티티={}", concert);
 
         return mapper.concertToConcertResponseDTO(concert);
+    }
+
+    @Override
+    public List<ConcertDTO> getConcertList() {
+        List<Long> concertIDs = repository.findConcertIDs();
+        return concertIDs.stream()
+                .map(this::getConcertDetail)
+                .collect(Collectors.toList());
     }
 
     @Override
