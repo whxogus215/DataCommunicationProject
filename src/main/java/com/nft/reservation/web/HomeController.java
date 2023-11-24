@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class HomeController {
     @RequestMapping("/")
     public String home() {
-        return "redirect:/concert/list";
+        return "서버 연결 완료";
     }
 }
