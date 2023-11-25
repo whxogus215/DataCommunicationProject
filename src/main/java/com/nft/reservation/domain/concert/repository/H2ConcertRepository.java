@@ -169,19 +169,6 @@ public class H2ConcertRepository implements JdbcConcertRepository {
         }
     }
 
-    @Override
-    public Long updateMintCount(Long count) {
-        String sql = "update mint_count set count = ? where id = 1";
-        template.update(sql, count);
-        return count;
-    }
-
-    @Override
-    public Long getMintCount() {
-        String sql = "select count from mint_count where id = 1";
-        return template.queryForObject(sql, Long.class);
-    }
-
     private RowMapper<Optional<ConcertDTO>> concertDtoRowMapper() {
         return (rs, rowNum) -> {
             ConcertDTO concertDTO = new ConcertDTO();

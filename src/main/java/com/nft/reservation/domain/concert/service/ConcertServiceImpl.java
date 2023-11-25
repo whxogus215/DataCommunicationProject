@@ -8,6 +8,7 @@ import com.nft.reservation.domain.concert.entity.Seat;
 import com.nft.reservation.domain.image.ImageSorter;
 import com.nft.reservation.domain.image.ImageStore;
 import com.nft.reservation.domain.image.UploadImage;
+import com.nft.reservation.domain.mint.repository.JdbcMintRepository;
 import com.nft.reservation.domain.utils.TokenCreator;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.web.concert.dto.ConcertForm;
@@ -34,7 +35,9 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class ConcertServiceImpl implements ConcertService {
 
-    private final JdbcConcertRepository repository;
+    private final JdbcConcertRepository concertRepository;
+    private final JdbcMintRepository mintRepository;
+
     private final ReservationMapper mapper;
     private final ImageStore imageStore;
     private final ImageSorter imageSorter;
@@ -54,7 +57,7 @@ public class ConcertServiceImpl implements ConcertService {
         Concert concert = mapper.concertDTOToEntity(concertForm.getConcertDTO());
         // 1. ConcertForm에서 공연이름 가져와서 공연장 조회
         String toFindHallName = concertForm.getConcertDTO().getHallName();
-        Long findHallId = repository.findConcertHallIdByName(toFindHallName);
+        Long findHallId = concertRepository.findConcertHallIdByName(toFindHallName);
         if (findHallId == null) {
             // 2-2. 없을 경우, 새로 등록 후, 해당 공연장 ID를 Concert의 FK에 저장
             //Jdbc Template의 Key Holder 사용
@@ -66,17 +69,17 @@ public class ConcertServiceImpl implements ConcertService {
             concertHallDTO.setAddress(concertForm.getConcertDTO().getHallAddress());
             log.info("입력한 콘서트 주소={}", concertForm.getConcertDTO().getHallAddress());
 
-            Long saveHallId = repository.saveHall(concertHallDTO);
+            Long saveHallId = concertRepository.saveHall(concertHallDTO);
             concert.setHallId(saveHallId);
         } else {
             // 2. 공연장 이름이 있을 경우, 해당 공연장 ID를 Concert의 FK에 저장
             concert.setHallId(findHallId);
         }
         //  3. ConcertForm에서 관람등급 내용 가져와서 관람등급 조회
-        Long findRankId = repository.findRankIdByDetail(concertForm.getConcertDTO().getRate());
+        Long findRankId = concertRepository.findRankIdByDetail(concertForm.getConcertDTO().getRate());
         if (findRankId == null) {
             // 4-2. 없을 경우, 새로 등록 후, 해당 관람등급 ID를 Concert의 FK에 저장
-            Long saveRankId = repository.saveRank(concertForm.getConcertDTO().getRate());
+            Long saveRankId = concertRepository.saveRank(concertForm.getConcertDTO().getRate());
             concert.setRankId(saveRankId);
         } else {
             // 4. 관람 등급이 있을 경우, 해당 관람등급 ID를 Concert의 FK에 저장
@@ -85,7 +88,7 @@ public class ConcertServiceImpl implements ConcertService {
 
         // 공연 엔티티 DB에 저장
         // 반환된 공연 ID 가져오기
-        Long saveConcertId = repository.saveConcert(concert);
+        Long saveConcertId = concertRepository.saveConcert(concert);
         concert.setId(saveConcertId);
 
         // 5. 공연 폼에서 이미지를 가져와서 파일 저장
@@ -121,7 +124,7 @@ public class ConcertServiceImpl implements ConcertService {
                     saveConcertId);
 
             // Image 저장 메서드 구현
-            repository.saveImage(image);
+            concertRepository.saveImage(image);
         }
 
         log.info("생성된 콘서트 엔티티={}", concert);
@@ -131,7 +134,7 @@ public class ConcertServiceImpl implements ConcertService {
 
     @Override
     public List<ConcertDTO> getConcertList() {
-        List<Long> concertIDs = repository.findConcertIDs();
+        List<Long> concertIDs = concertRepository.findConcertIDs();
         return concertIDs.stream()
                 .map(this::getConcertDetail)
                 .collect(Collectors.toList());
@@ -140,7 +143,7 @@ public class ConcertServiceImpl implements ConcertService {
     @Override
     public ConcertDTO getConcertDetail(Long concertId) {
         // 컨트롤러에게 전달받은 콘서트 ID로 DAO에 find 메서드 조회
-        Optional<ConcertDTO> findConcert = repository.findConcertById(concertId);
+        Optional<ConcertDTO> findConcert = concertRepository.findConcertById(concertId);
 
         if (findConcert.isEmpty()) {
             return null;
@@ -148,7 +151,7 @@ public class ConcertServiceImpl implements ConcertService {
         ConcertDTO concertDTO = findConcert.get();
 
         // 해당 ID로 이미지 리스트 조회
-        List<Image> findImages = repository.findImageByConcertId(concertId);
+        List<Image> findImages = concertRepository.findImageByConcertId(concertId);
         if (findImages.isEmpty()) {
             return concertDTO;
         }
@@ -172,7 +175,7 @@ public class ConcertServiceImpl implements ConcertService {
 
     @Override
     public List<SeatDTO> getConcertSeat(Long concertId) {
-        List<Seat> bookedSeats = repository.findBookedSeatById(concertId);
+        List<Seat> bookedSeats = concertRepository.findBookedSeatById(concertId);
 
         List<SeatDTO> dtoBookedSeats = new ArrayList<>();
         for (Seat bookedSeat : bookedSeats) {
@@ -191,26 +194,26 @@ public class ConcertServiceImpl implements ConcertService {
 
         // seatDTOs에 있는 좌석들 Update 및 좌석 반환 받기
         for (SeatDTO seatDTO : seatDTOs) {
-            SeatDTO savedSeat = repository.saveSeatById(concertId, seatDTO);
+            SeatDTO savedSeat = concertRepository.saveSeatById(concertId, seatDTO);
             savedSeat.setBooked(true); // 저장된 좌석은 예약 됐음(true)으로 변경
             reservedSeats.add(savedSeat);
         }
         SeatResponse seatResponse = new SeatResponse();
         seatResponse.setReservedSeats(reservedSeats);
 
-        Long currentMintCount = repository.getMintCount();
+        Long currentMintCount = mintRepository.getMintCount();
 
         String tokenValue = TokenCreator.createMintToken(currentMintCount + 1);
         seatResponse.setCreatedToken(tokenValue);
 
-        repository.updateMintCount(currentMintCount + 1);
+        mintRepository.updateMintCount(currentMintCount + 1);
         return seatResponse;
     }
 
     @Override
     public ConcertHallDTO getConcertHallSize(Long concertId) {
         // repository에서 해당 공연 ID와 연결된 공연장 정보 가져오기
-        Optional<ConcertHall> concertHallById = repository.findConcertHallById(
+        Optional<ConcertHall> concertHallById = concertRepository.findConcertHallById(
                 Long.valueOf(concertId));
         // ConcertHall 엔티티 -> DTO로 변환
         if (concertHallById.isPresent()) {

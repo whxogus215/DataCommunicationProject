@@ -129,14 +129,4 @@ class H2ConcertRepositoryTest {
         assertThat(findImages.get(0).getUploadName()).isEqualTo("본문1.jpg");
         assertThat(findImages.get(0).getConcertId()).isEqualTo(conertId);
     }
-
-    @Test
-    @DisplayName("민팅 횟수 조회 및 갱신 테스트")
-    void mintCountTest() {
-        Long findMintCount = jdbcConcertRepository.getMintCount();
-        jdbcConcertRepository.updateMintCount(findMintCount + 1);
-        Long updateMintCount = jdbcConcertRepository.getMintCount();
-
-        assertThat(updateMintCount).isEqualTo(findMintCount + 1);
-    }
 }

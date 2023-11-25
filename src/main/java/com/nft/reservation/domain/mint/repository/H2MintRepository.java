@@ -12,6 +12,19 @@ public class H2MintRepository implements JdbcMintRepository {
     private final JdbcTemplate template;
 
     @Override
+    public Long updateMintCount(Long count) {
+        String sql = "update mint_count set count = ? where id = 1";
+        template.update(sql, count);
+        return count;
+    }
+
+    @Override
+    public Long getMintCount() {
+        String sql = "select count from mint_count where id = 1";
+        return template.queryForObject(sql, Long.class);
+    }
+
+    @Override
     public void saveMintImageUrl(String url, Long concertId) {
         String sql = "insert into mint_image (image_url, concert_id) values (?, ?)";
         template.update(sql, url, concertId);

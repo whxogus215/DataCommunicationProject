@@ -43,6 +43,16 @@ class H2MintRepositoryTest {
     }
 
     @Test
+    @DisplayName("민팅 횟수 조회 및 갱신 테스트")
+    void mintCountTest() {
+        Long findMintCount = jdbcMintRepository.getMintCount();
+        jdbcMintRepository.updateMintCount(findMintCount + 1);
+        Long updateMintCount = jdbcMintRepository.getMintCount();
+
+        assertThat(updateMintCount).isEqualTo(findMintCount + 1);
+    }
+
+    @Test
     @DisplayName("민팅 이미지 url 저장 및 반환 테스트")
     void mintImageUrlTest() {
         String url = "https://metadata-store.klaytnapi.com/c111da93-ef33-87db-0db4-97b3b"
