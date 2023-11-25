@@ -17,4 +17,6 @@ public class ConcertForm {
     private MultipartFile thumbnailImage;
     private MultipartFile carouselImage;
     private List<MultipartFile> contentImages;
+
+    private String mintImageUrl;
 }
