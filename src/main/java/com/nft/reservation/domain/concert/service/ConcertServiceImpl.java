@@ -1,20 +1,20 @@
 package com.nft.reservation.domain.concert.service;
 
-import com.nft.reservation.domain.concert.repository.JdbcConcertRepository;
 import com.nft.reservation.domain.concert.entity.Concert;
 import com.nft.reservation.domain.concert.entity.ConcertHall;
 import com.nft.reservation.domain.concert.entity.Image;
 import com.nft.reservation.domain.concert.entity.Seat;
+import com.nft.reservation.domain.concert.repository.JdbcConcertRepository;
 import com.nft.reservation.domain.image.ImageSorter;
 import com.nft.reservation.domain.image.ImageStore;
 import com.nft.reservation.domain.image.UploadImage;
+import com.nft.reservation.domain.mapper.ReservationMapper;
 import com.nft.reservation.domain.mint.repository.JdbcMintRepository;
 import com.nft.reservation.domain.utils.TokenCreator;
 import com.nft.reservation.web.concert.dto.ConcertDTO;
 import com.nft.reservation.web.concert.dto.ConcertForm;
 import com.nft.reservation.web.concert.dto.ConcertHallDTO;
 import com.nft.reservation.web.concert.dto.SeatDTO;
-import com.nft.reservation.domain.mapper.ReservationMapper;
 import com.nft.reservation.web.concert.dto.SeatResponse;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -76,7 +76,8 @@ public class ConcertServiceImpl implements ConcertService {
             concert.setHallId(findHallId);
         }
         //  3. ConcertForm에서 관람등급 내용 가져와서 관람등급 조회
-        Long findRankId = concertRepository.findRankIdByDetail(concertForm.getConcertDTO().getRate());
+        Long findRankId = concertRepository.findRankIdByDetail(
+                concertForm.getConcertDTO().getRate());
         if (findRankId == null) {
             // 4-2. 없을 경우, 새로 등록 후, 해당 관람등급 ID를 Concert의 FK에 저장
             Long saveRankId = concertRepository.saveRank(concertForm.getConcertDTO().getRate());
@@ -127,6 +128,7 @@ public class ConcertServiceImpl implements ConcertService {
             concertRepository.saveImage(image);
         }
 
+        mintRepository.saveMintImageUrl(concertForm.getMintImageUrl(), saveConcertId);
         log.info("생성된 콘서트 엔티티={}", concert);
 
         return mapper.concertToConcertResponseDTO(concert);
