@@ -7,6 +7,11 @@
 3. 저장된 공연의 이미지 및 기타 정보 제공
 4. 예매 시 NFT 토큰을 발행할 수 있는 토큰 값 반환
 
+## 기술 스택
+- SpringBoot
+- JDBC, H2 Database
+- Lombok
+
 ## ERD
 ![ERD.png](images%2FERD.png)
 
