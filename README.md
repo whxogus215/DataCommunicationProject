@@ -13,7 +13,6 @@
 - Lombok
 
 ## ERD
-![ERD.png](images%2FERD.png)
 
 ## 주요 기능 흐름도
 ### 공연 등록 및 조회
