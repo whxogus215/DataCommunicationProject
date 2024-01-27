@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/concert")
 public class ConcertController {
     private final ConcertService concertService;
-    private  final ImageStore imageStore;
 
     @GetMapping("/list")
     @ResponseBody
@@ -39,13 +38,6 @@ public class ConcertController {
         // 공연 목록 조회
         return concertService.getConcertList();
     }
-
-    /**
-    @GetMapping("/news")
-    public void getListForCarousel() {
-        // 캐러샐 및 홈 화면에 조회되는 목록 조회
-    }
-     **/
 
     @GetMapping("/detail/{id}")
     @ResponseBody

@@ -40,7 +40,6 @@ public class ConcertServiceImpl implements ConcertService {
 
     private final ReservationMapper mapper;
     private final ImageStore imageStore;
-    private final ImageSorter imageSorter;
 
     @Transactional
     @Override
